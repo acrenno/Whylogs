@@ -1,0 +1,1315 @@
+<div></div><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;&quot; /&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;&quot; /&gt;
+
+    &lt;title&gt;Profile Visualizer | whylogs&lt;/title&gt;
+
+    &lt;link rel=&quot;icon&quot; href=&quot;images/whylabs-favicon.png&quot; type=&quot;image/png&quot; sizes=&quot;16x16&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin /&gt;
+    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700&amp;display=swap&quot; rel=&quot;stylesheet&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; /&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css&quot; /&gt;
+
+    &lt;script
+      src=&quot;https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js&quot;
+      integrity=&quot;sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg==&quot;
+      crossorigin=&quot;anonymous&quot;
+      referrerpolicy=&quot;no-referrer&quot;
+    &gt;&lt;/script&gt;
+
+    &lt;style type=&quot;text/css&quot;&gt;
+      :root {
+        /* CONSTANTS */
+        --SIDE-PANEL-WIDTH: 320px;
+        --PROPERTY-PANEL-WIDTH: 420px;
+
+        /* COLOR VARIABLES */
+        /** Standard colors */
+        --red: #d11010;
+        --orange: #f07028;
+        --yellow: #faaf40;
+        --olive: #b5cc18;
+        --green: #1dbb42;
+        --teal: #00b5ad;
+        --blue: #2683c9;
+        --violet: #6435c9;
+        --purple: #a333c8;
+        --pink: #ed45a4;
+        --brown: #ac724d;
+        --grey: #778183;
+        --black: #1b1c1d;
+        --white: #ffffff;
+
+        /** Branded colors */
+        --brandPrimary900: #0e7384;
+        --brandPrimary800: #228798;
+        --brandPrimary700: #369bac;
+        --brandPrimary600: #4aafc0;
+        --brandPrimary500: #5ec3d4;
+        --brandPrimary400: #72d7e8;
+        --brandPrimary300: #86ebfc;
+        --brandPrimary200: #a6f2ff;
+        --brandPrimary100: #cdf8ff;
+        --brandSecondary900: #4f595b;
+        --brandSecondary800: #636d6f;
+        --brandSecondary700: #778183;
+        --brandSecondary600: #8b9597;
+        --brandSecondary500: #9fa9ab;
+        --brandSecondary400: #b3bdbf;
+        --brandSecondary300: #c7d1d3;
+        --brandSecondary200: #dbe5e7;
+        --brandSecondary100: #ebf2f3;
+        --secondaryLight1000: #313b3d;
+        --brandRed4: #b30000;
+        --brandRed3: #d72424;
+        --brandRed2: #eb5656;
+        --brandRed1: #ff8282;
+        --night1: #021826;
+        /** Purpose colors */
+        --textColor: #4f595b;
+        --linkColor: #369bac;
+        --infoColor: #2683c9;
+        --warningColor: #faaf40;
+        --tealBackground: #eaf2f3;
+        --pageBackground: #e5e5e5;
+        --contrastTableRow: #fafafa;
+        --whiteBackground: #ffffff;
+        --primaryBackground: #e5e5e5;
+      }
+
+      /* RESET STYLE */
+      *,
+      *::after,
+      *::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: &quot;Asap&quot;, Arial, Helvetica, sans-serif;
+      }
+
+      /*
+      * Main content
+      */
+      .main {
+        position: relative;
+        background: #FFFFFF;
+        border: 1px solid #DBE5E7;
+        box-sizing: border-box;
+        border-radius: 4px;
+      }
+      .main .page-header {
+        margin-top: 0;
+      }
+
+      /* CSS DIV TABLE BASIC STYLE */
+
+      .wl-table-row .wl-table-head:first-child {
+        min-width: 360px;
+        z-index: 2;
+      }
+
+      .wl-table-wrap {
+        position: relative;
+      }
+
+      .wl-table {
+        display: table;
+        width: 100%;
+      }
+
+      .row&gt;* {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+      }
+
+      .wl-table-row {
+        display: table-row;
+      }
+
+      .wl-table-row:hover,
+      .wl-table-row:hover .wl-table-cell:first-child {
+        background-color: var(--brandSecondary100);
+      }
+      .wl-table-row--clickable:hover .wl-table-cell__title-button {
+        visibility: visible;
+      }
+
+      .wl-table-heading {
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        display: table-header-group;
+        font-weight: 700;
+      }
+
+      .wl-table-cell,
+      .wl-table-head {
+        border-bottom: 1px solid var(--brandSecondary200);
+        display: table-cell;
+        padding: 12px 18px;
+      }
+
+      .wl-table-cell {
+        font-size: 14px;
+      }
+
+      .wl-table-cell--top-spacing {
+        padding-top: 35px; /* cell-top-padding + cell-title-height */
+      }
+
+      .wl-table-head-wraper {
+        background-color: var(--white);
+      }
+
+      .wl-table-head {
+        position: sticky;
+        left: 0;
+        min-width: 100px;
+        border-bottom: 2px solid var(--brandSecondary100);
+        font-size: 12px;
+        line-height: 1.67;
+        white-space: nowrap;
+      }
+
+      .wl-sub-table-head {
+        position: relative;
+      }
+
+      .wl-table-body {
+        display: table-row-group;
+      }
+
+      .wl-table-row .wl-table-cell:first-child{
+        position: sticky;
+        left: 0;
+        background-color: var(--white);
+        border-right-width: 2px;
+      }
+
+      /* Table custom style */
+
+      .wl-table-cell__title-wrap {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .wl-table-cell__title {
+        height: 25px;
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .wl-table-cell__bedge-wrap {
+        padding: 2px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        font-style: italic;
+        text-align: center;
+        color: var(--brandSecondary400);
+      }
+      .wl-table-cell__bedge {
+        height: 24px;
+        margin: 1px;
+        padding: 2px 8px;
+        border: 1px solid var(--brandSecondary400);
+        font-style: normal;
+        color: var(--brandSecondary900);
+        border-radius: 20px;
+        white-space: nowrap;
+      }
+
+      /* Property side panel */
+
+      .wl-compare-profile {
+        z-index: 999;
+        position: absolute;
+        right: 0;
+        background: var(--white);;
+        border-bottom: 1px solid var(--brandSecondary200);
+      }
+
+      /* Screen on smaller screens */
+      .no-responsive {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1031;
+        width: 100vw;
+        height: 100vh;
+        background-color: var(--tealBackground);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .no-responsive__content {
+        max-width: 600px;
+        width: 100%;
+        padding: 0 24px;
+      }
+
+      .no-responsive__title {
+        font-size: 96px;
+        font-weight: 300;
+        color: var(--brandSecondary900);
+        line-height: 1.167;
+      }
+
+      .no-responsive__text {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--brandSecondary900);
+        line-height: 1.5;
+      }
+
+      .space-between {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .align-items {
+        display: flex;
+        align-items: center;
+      }
+
+      .display-flex{
+        display: flex;
+      }
+
+      .table-border-none {
+        padding: 0;
+        border: none;
+      }
+
+      .flex-direction-colum {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .align-items {
+        align-items: center;
+      }
+
+      .search-input{
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+      }
+
+      .search-input input{
+        border: none;
+        background: none;
+        outline: none;
+        height: 40px;
+        width: 100%;
+        font-size: 14px;
+      }
+
+      .search-input img{
+        height: 19px;
+        pointer-events: none;
+      }
+
+      input::placeholder {
+        color: var(--secondaryLight1000);
+      }
+
+      .text-align-center {
+        text-align: center;
+      }
+
+      .text-align-end {
+        text-align: end;
+      }
+
+      .drift-detection {
+        justify-content: space-between;
+        align-items: center;
+      }
+
+     .drift-detection-info-circle {
+       width: 15px;
+       height: 15px;
+       border-radius: 50px;
+       display: inline-block;
+       margin-right: 8px;
+     }
+
+     .severe-drift-circle-color {
+         background: #D40D00;
+     }
+
+     .moderate-drift-circle-color {
+         background: #F5843C;
+     }
+
+     .mild-drift-circle-color {
+         background: #F2C142;
+     }
+
+     .minimal-drift-circle-color {
+         background: #ABCA52;
+     }
+
+     .drift-detection-info-drifts-item {
+         padding-right: 20px;
+     }
+
+     .drift-detection-info-title {
+       font-family: Arial;
+       font-weight: bold;
+       font-size: 16px;
+       line-height: 130%;
+       color: #313B3D;
+     }
+
+     .drift-detection-info-drifts-item-count {
+       font-family: Arial;
+       font-weight: bold;
+       font-size: 14px;
+       line-height: 16px;
+       color: #000000;
+       padding-right: 8px;
+     }
+
+     .drift-detection-info-drifts-item-name {
+       font-family: Arial;
+       font-style: normal;
+       font-weight: normal;
+       font-size: 12px;
+       line-height: 14px;
+       color: #000000;
+     }
+
+     .drift-detection-info-drifts-item-range {
+       font-family: Arial;
+       font-style: normal;
+       font-weight: normal;
+       font-size: 11px;
+       line-height: 13px;
+       color: #6C757D;
+     }
+
+     .drift-detection-search-input {
+       display: flex;
+       align-items: center;
+       background: rgba(255, 255, 255, 0.7);
+       border: 1px solid #DBE5E7;
+       box-sizing: border-box;
+       border-radius: 4px;
+       width: 170px;
+       padding-left: 10px;
+     }
+
+     .drift-detection-search-input img{
+       margin-right: 5px;
+     }
+
+     .drift-detection-search-input input::placeholder {
+       font-family: Arial;
+       font-weight: normal;
+       font-size: 13px;
+       line-height: 16px;
+       color: #313B3D;
+     }
+
+     .close-filter-button {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       background: rgba(255, 255, 255, 0.7);
+       border: 1px solid #369BAC;
+       box-sizing: border-box;
+       border-radius: 4px;
+       width: 40px;
+       height: 40px;
+       cursor: pointer;
+       margin-left: 10px;
+     }
+
+     .filter-options-title {
+       width: 240px;
+     }
+
+     .filter-options-title p {
+       margin: 0;
+     }
+
+     .dropdown-container {
+       position: absolute;
+       right: 18px;
+       z-index: 999;
+       background: #FFFFFF;
+       border: 1px solid #DBE5E7;
+       box-sizing: border-box;
+       box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+       border-radius: 4px;
+       padding: 10px !important;
+       border: none !important;
+     }
+
+     .form-check-input:checked {
+       background-color: #0E7384;
+       border-color: #0E7384;
+     }
+
+     .form-check-input[type=checkbox] {
+       border-radius: 2px;
+     }
+
+      .justify-content-center {
+        justify-content: center;
+      }
+
+      .wl-table-cell__graph-wrap {
+        width: 0;
+      }
+
+      .svg-container {
+        display: inline-block;
+        position: relative;
+        width: 85%;
+        padding-bottom: 17%;
+        vertical-align: top;
+        overflow: hidden;
+      }
+
+      .svg-content-responsive {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+      }
+
+      .reference-table-head {
+        min-width: 250px;
+      }
+
+      .wl__dropdown_arrow-icon {
+        position: relative;
+      }
+
+      .notif-circle-container{
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        padding: 5.3px;
+        border-radius: 50%;
+        background-color: white;
+        cursor: pointer;
+      }
+
+      .notif-circle {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        padding: 3.3px;
+        border-radius: 50%;
+        background-color: #F2994A;
+      }
+
+
+      .header-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #444444;
+      }
+
+      .statistic-number-title {
+        font-family: Arial;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        color: #6C757D;
+      }
+
+      .statistic-number {
+        font-family: Arial;
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 140%;
+        display: flex;
+        align-items: center;
+        color: #0E7384;
+      }
+
+      .statistic-measurement {
+        font-size: 15px !important;
+        margin-left: 3px;
+      }
+
+      .statistic-measurement-percent {
+        font-size: 15px !important;
+      }
+
+      .question-mark {
+        font-size: 10px;
+        font-weight: 900;
+        color: #0E7384;
+        border-radius: 50px;
+        border: 2px solid #0E7384;
+        padding: 0px 4px;
+        transition: 0.5s;
+        cursor: pointer;
+      }
+
+      .question-mark:hover {
+        color: white;
+        background: #0E7384;
+        border: 2px solid none;
+        transition: 0.5s;
+      }
+
+      .tooltip-full-number {
+        position: relative;
+        display: inline-block;
+      }
+
+      .tooltip-full-number .tooltiptext {
+        visibility: hidden;
+        background: black;
+        color: white;
+        border: 1px solid black;
+        text-align: start;
+        padding: 3px;
+        position: absolute;
+        z-index: 1002;
+        top: 0;
+        left: 100%;
+        margin-left: 5px;
+        opacity: 0;
+        transition: opacity 0.5s;
+        font-size: 13px;
+        font-weight: normal;
+        line-height: 100%;
+      }
+
+      .tooltip-full-number:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .display-flex {
+        display: flex;
+      }
+
+      .flex-direction-column {
+        flex-direction: column;
+      }
+
+      .justify-content-space-between {
+        justify-content: space-between;
+      }
+
+      .justify-content-center {
+        justify-content: center;
+      }
+
+      .align-items-center {
+        align-items: center;
+      }
+
+      .padding-right-30 {
+        padding-right: 30px;
+      }
+
+      .padding-5 {
+        padding: 5px;
+      }
+
+      .text-color {
+        color: var(--secondaryLight1000);
+      }
+
+      .error-message {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgb(255, 114, 71);
+        font-size: 30px;
+        font-weight: 900;
+      }
+
+      @media screen and (min-width: 500px) {
+        .desktop-content {
+          display: block;
+        }
+        .no-responsive {
+          display: none;
+        }
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body id=&quot;generated-html&quot;&gt;&lt;/body&gt;
+
+  &lt;script id=&quot;entry-template&quot; type=&quot;text/x-handlebars-template&quot;&gt;
+    
+      &lt;div class=&quot;desktop-content&quot;&gt;
+        &lt;div class=&quot;container-fluid&quot;&gt;
+          &lt;div class=&quot;feature-summary-statistics-wrap&quot;&gt;
+            &lt;div class=&quot;feature-summary-statistics&quot;&gt;
+              &lt;div class=&quot;mb-4&quot;&gt;
+                  &lt;strong class=&quot;header-title&quot;&gt;Profile Summary&lt;/strong&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;display-flex statistics&quot;&gt;
+                &lt;div class=&quot;padding-right-30&quot;&gt;
+                  &lt;div class=&quot;statistic-number-title&quot;&gt;Observations
+                    &lt;div class=&quot;tooltip-full-number&quot;&gt;
+                      &lt;span class=&quot;question-mark&quot;&gt;?&lt;/span&gt;
+                    &lt;span class=&quot;tooltiptext&quot;&gt;
+                     &lt;div class=&quot;mb-1&quot;&gt;The sum of counts for each feature. For a single dataframe, it is equal to the number of cells, i.e., rows * columns.&lt;/div&gt;
+                    &lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;div class=&quot;statistic-number&quot;&gt;{{{observations this}}}&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;padding-right-30&quot;&gt;
+                  &lt;div class=&quot;statistic-number-title&quot;&gt;Missing Cells&lt;/div&gt;
+                  &lt;div class=&quot;statistic-number&quot;&gt;
+                    {{{missingCells this}}}
+                    &lt;div&gt;{{{missingCellsPercentage this}}}&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;wl-compare-profile&quot; id=&quot;compare-profile&quot; style=&quot;display: flex; justify-content: space-around&quot;&gt;
+                  &lt;div class=&quot;drift-detection-wrap&quot;&gt;
+                    &lt;div class=&quot;drift-detection display-flex&quot;&gt;
+                      &lt;div class=&quot;drift-detection-search-input-wrap display-flex&quot;&gt;
+                        &lt;div class=&quot;drift-detection-search-input search-input &quot;&gt;
+                          &lt;input type=&quot;text&quot; id=&quot;wl__feature-search&quot; placeholder=&quot;Quick search...&quot;/&gt;
+                          &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGdSURBVHgBpZK7TkJBEIZnZoVocdTYyQNALxpNKPQBMEaNJsbCRMKhl8ISWwt6AaksCF5iTHgAGhJD4AHkAaAzGiwUsjvOQnO4SYh/cXbPzO43OxcEj9Zy92EiFSXNIfvPyE1kKFfdoxJMENpP6DrvLC0vJoEwCgwto7DWcxoIIHBYbA3NmKwnDltjAeuZhyul1DaTTlfPB6Nt5Z53DOgky4P875+nlctY2+unjZviLklkJhi5bPUa3y/7qJuQUM7PinMy7CdQc1Gh16vnBxPzrMROmlKQEgKNASAHLQCmSIGpS75O+O5pdQAgVXaIqTkNwDDXHmcnW3VmHZoGMLoTsOt88+NrAMCIZdu+iLTyTwKRa1Md6YKfOgXbzO7K8sWku5u5RxcRV5EpPezrzcHGbXEXWaUkgkweZ/UC9YrK3zqggFw5FBZfm8EUavHj7AjAKpIvBDrGn+pNnlcyhYgqbcC41idr1gvB4SdZkDbzQa21gwv0Vj07aPTtL07XdDOyDXohCDNoHIRmAVRie20f+RKybRDQDvxHkXy/7b/DrayncLbMwQAAAABJRU5ErkJggg==&quot;/&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;wl__dropdown_arrow-icon&quot; &gt;
+                          &lt;div onclick=&quot;openFilter()&quot; class=&quot;close-filter-button&quot;&gt;
+                            &lt;div class=&quot;display-flex close-filter-icon d-none&quot;&gt;
+                              &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADFSURBVHgBfY+xDcIwEEXvnLQBZQkYAEhDwwKpEEK0CCZgAEjJCEmgjYSAygxAHTZgFRSOsyUjY5mcZFnn/+78PwBXf3+MoKWUPuYjVBPFnTwpr9t/oNJfcTfXsAhRAlDqDhhQIPYgpAqNMDqcUqSAYZT1epr9gAHt6uXshvYme4DYHQJNDKh0dD0m5WXB10Y3Fqjtuh7fROn3oREDWxfeMLyRsMnc0OgDzdduaA0Pi3Plgr7Q2kaAePeBqh6rueSNBVt6fgCwBV1JLF3rlAAAAABJRU5ErkJggg==&quot;/&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;display-flex filter-icon&quot;&gt;
+                              &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACSSURBVHgBrZLBCYAwDEWTUjw7igcdwI1cxkNXUJzBEVzFAbSVKoKmaVrEB6GHJv/w+AACtRk7P9IONv1QOYUl96k0zv61m2tjARoLtSDI3EFsgIJ4uoXrMLazO72CRG2mzg/8BSdVlEjhpGZJjAWdAZJECpWalEhJSs1pHuUlMad5FFai1Lwg4Ckx1TxKIPFL8w55mEWd8VjPGAAAAABJRU5ErkJggg==&quot;/&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                          &lt;span class=&quot;notif-circle-container&quot;&gt;
+                            &lt;span class=&quot;notif-circle&quot;&gt;&lt;/span&gt;
+                          &lt;/span&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;dropdown-container flex-direction-colum mb-2 d-none&quot; id=&quot;dropdown-container&quot;&gt;
+                    &lt;div class=&quot;filter-options&quot;&gt;
+                      &lt;div class=&quot;filter-options-title space-between dropdown&quot;&gt;
+                        &lt;p&gt;Filter by type&lt;/p&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;form-check mb-1 mt-2&quot;&gt;
+                        &lt;input
+                          class=&quot;form-check-input wl__feature-filter-input&quot;
+                          type=&quot;checkbox&quot;
+                          name=&quot;checkbox&quot;
+                          value=&quot;Discrete&quot;
+                          id=&quot;inferredDiscrete&quot;
+                          onclick=&quot;changeDiscreteValue()&quot;
+                          checked
+                        /&gt;
+                        &lt;label class=&quot;form-check-label&quot; for=&quot;inferredDiscrete&quot;&gt;
+                          Inferred discrete (&lt;span class=&quot;wl__feature-count--discrete&quot;&gt;{{getDiscreteTypeCount}}&lt;/span&gt;)
+                        &lt;/label&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;form-check mb-1&quot;&gt;
+                        &lt;input
+                          class=&quot;form-check-input wl__feature-filter-input&quot;
+                          type=&quot;checkbox&quot;
+                          name=&quot;checkbox&quot;
+                          value=&quot;Non-discrete&quot;
+                          id=&quot;inferredNonDiscrete&quot;
+                          onclick=&quot;changeNonDiscreteValue()&quot;
+                          checked
+                        /&gt;
+                        &lt;label class=&quot;form-check-label&quot; for=&quot;inferredNonDiscrete&quot;&gt;
+                          Inferred non-discrete (&lt;span
+                            class=&quot;wl__feature-count--non-discrete&quot;
+                          &gt;{{getNonDiscreteTypeCount}}&lt;/span&gt;)
+                        &lt;/label&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;form-check mb-1&quot;&gt;
+                        &lt;input
+                          class=&quot;form-check-input wl__feature-filter-input&quot;
+                          type=&quot;checkbox&quot;
+                          name=&quot;checkbox&quot;
+                          value=&quot;Unknown&quot;
+                          id=&quot;inferredUnknown&quot;
+                          onclick=&quot;changeUnknwonValue()&quot;
+                          checked
+                        /&gt;
+                        &lt;label class=&quot;form-check-label&quot; for=&quot;inferredUnknown&quot;&gt;
+                          Unknown (&lt;span class=&quot;wl__feature-count--unknown&quot;&gt;{{getUnknownTypeCount}}&lt;/span&gt;)
+                        &lt;/label&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;row&quot;&gt;
+            &lt;div class=&quot;main&quot;&gt;
+              &lt;div class=&quot;wl-table-wrap&quot; id=&quot;table-content&quot;&gt;
+                &lt;div class=&quot;wl-table&quot;&gt;
+                  &lt;div class=&quot;wl-table-heading&quot;&gt;
+                    &lt;div class=&quot;wl-table-row wl-table-row--bottom-shadow&quot;&gt;
+                      &lt;div class=&quot;wl-table-head wl-table-head-wraper&quot;&gt;
+                        &lt;div class=&quot;wl-table-head table-border-none graph-table-head&quot;&gt;Target&lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;wl-table-head wl-table-head-wraper text-align-end&quot;&gt;Total count&lt;/div&gt;
+                      &lt;div class=&quot;wl-table-head wl-table-head-wraper text-align-end&quot;&gt;Missing&lt;/div&gt;
+                      &lt;div class=&quot;wl-table-head wl-table-head-wraper text-align-end&quot;&gt;Mean&lt;/div&gt;
+                      &lt;div class=&quot;wl-table-head wl-table-head-wraper text-align-end&quot;&gt;Min&lt;/div&gt;
+                      &lt;div class=&quot;wl-table-head wl-table-head-wraper text-align-end&quot;&gt;Max&lt;/div&gt;
+
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;ul class=&quot;wl-table-body wl__table-body&quot; id=&quot;table-body&quot;&gt;
+{{#each this.columns}}                    &lt;li
+                    {{#if this.numberSummary}} class=&quot;wl-table-row wl-table-row--clickable&quot; {{else}} class=&quot;wl-table-row&quot; {{/if}}
+                    data-feature-name={{@key}}
+                    data-inferred-type={{inferredType this}}
+                    data-scroll-to-feature-name={{@key}}
+                  &gt;
+                      &lt;div class=&quot;wl-table-cell wl-table-cell__graph-wrap&quot;&gt;
+                        &lt;div class=&quot;wl-table-cell__title-wrap&quot;&gt;
+                          &lt;h4 class=&quot;wl-table-cell__title&quot;&gt;{{@key}}&lt;/h4&gt;
+                          &lt;div&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                          &lt;div class=&quot;display-flex&quot;&gt;
+                              {{{getGraphHtml this}}}
+                          &lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;div
+                        class=&quot;wl-table-cell wl-table-cell--top-spacing align-middle&quot;
+                      &gt;&lt;div class=&quot;text-align-end&quot;&gt;{{totalCount this}}&lt;/div&gt;&lt;/div&gt;
+                      &lt;div
+                        class=&quot;wl-table-cell wl-table-cell--top-spacing align-middle&quot;
+                      &gt;&lt;div class=&quot;text-align-end&quot;&gt;{{missing this}}&lt;/div&gt;&lt;/div&gt;
+                      &lt;div
+                        class=&quot;wl-table-cell wl-table-cell--top-spacing align-middle&quot;
+                      &gt;&lt;div class=&quot;text-align-end&quot;&gt;{{mean this}}&lt;/div&gt;&lt;/div&gt;
+                      &lt;div
+                        class=&quot;wl-table-cell wl-table-cell--top-spacing align-middle&quot;
+                      &gt;&lt;div class=&quot;text-align-end&quot;&gt;{{minimumValue this}}&lt;/div&gt;&lt;/div&gt;
+                      &lt;div
+                        class=&quot;wl-table-cell wl-table-cell--top-spacing align-middle&quot;
+                      &gt;&lt;div class=&quot;text-align-end&quot;&gt;{{maximumValue this}}&lt;/div&gt;&lt;/div&gt;
+
+                    &lt;/li&gt;
+{{/each}}                  &lt;/ul&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;no-responsive&quot;&gt;
+        &lt;div class=&quot;no-responsive__content&quot;&gt;
+          &lt;h1 class=&quot;no-responsive__title&quot;&gt;Hold on! :)&lt;/h1&gt;
+          &lt;p class=&quot;no-responsive__text&quot;&gt;
+            It looks like your current screen size or device is not yet supported by the WhyLabs Sandbox. The Sandbox is
+            best experienced on a desktop computer. Please try maximizing this window or switching to another device. We
+            are working on adding support for a larger variety of devices.
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    
+  &lt;/script&gt;
+
+  &lt;script src=&quot;https://code.jquery.com/jquery-3.6.0.min.js&quot; integrity=&quot;sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js&quot; integrity=&quot;sha512-cd6CHE+XWDQ33ElJqsi0MdNte3S+bQY819f7p3NUHgwQQLXSKjE4cPZTeGNI+vaxZynk1wVU3hoHmow3m089wA==&quot; crossorigin=&quot;anonymous&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    const getTargetProfile = () =&gt; { return {&quot;columns&quot;: {&quot;hour&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.0, &quot;end&quot;: 23.0000023, &quot;width&quot;: 0, &quot;counts&quot;: [364, 364, 364, 345, 0, 363, 364, 364, 0, 364, 363, 365, 0, 363, 365, 363, 365, 0, 365, 365, 365, 0, 365, 365, 373, 0, 365, 357, 365, 373], &quot;max&quot;: 23.0, &quot;min&quot;: 0.0, &quot;bins&quot;: [0.0, 0.7666667433333333, 1.5333334866666666, 2.3000002299999998, 3.066666973333333, 3.8333337166666666, 4.6000004599999995, 5.366667203333333, 6.133333946666666, 6.90000069, 7.666667433333333, 8.433334176666666, 9.200000919999999, 9.966667663333332, 10.733334406666666, 11.50000115, 12.266667893333333, 13.033334636666666, 13.80000138, 14.566668123333333, 15.333334866666666, 16.10000161, 16.86666835333333, 17.633335096666666, 18.400001839999998, 19.166668583333333, 19.933335326666665, 20.70000207, 21.46666881333333, 22.233335556666667, 23.0000023], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.27478819980429264, &quot;min&quot;: 0.0, &quot;max&quot;: 23.0, &quot;range&quot;: 23.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 1.0, &quot;iqr&quot;: 12.0, &quot;q1&quot;: 6.0, &quot;median&quot;: 12.0, &quot;q3&quot;: 18.0, &quot;ninety_fifth_percentile&quot;: 22.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 6.9212080403272385, &quot;coefficient_of_variation&quot;: 0.6007914271367473, &quot;sum&quot;: 100617.0, &quot;variance&quot;: 47.90312073749042, &quot;mean&quot;: 11.52015113350126}}}, &quot;month&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 1.0, &quot;end&quot;: 12.0000012, &quot;width&quot;: 0, &quot;counts&quot;: [740, 0, 688, 0, 0, 744, 0, 0, 720, 0, 744, 0, 0, 720, 0, 0, 746, 0, 0, 744, 0, 720, 0, 0, 708, 0, 0, 718, 0, 742], &quot;max&quot;: 12.0, &quot;min&quot;: 1.0, &quot;bins&quot;: [1.0, 1.3666667066666667, 1.7333334133333334, 2.10000012, 2.4666668266666667, 2.8333335333333336, 3.20000024, 3.5666669466666665, 3.9333336533333334, 4.30000036, 4.666667066666667, 5.033333773333333, 5.40000048, 5.766667186666667, 6.133333893333333, 6.5000006, 6.866667306666667, 7.233334013333334, 7.600000720000001, 7.966667426666667, 8.333334133333334, 8.700000840000001, 9.066667546666666, 9.433334253333333, 9.80000096, 10.166667666666667, 10.533334373333334, 10.900001080000001, 11.266667786666666, 11.633334493333333, 12.0000012], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.1373940958074829, &quot;min&quot;: 1.0, &quot;max&quot;: 12.0, &quot;range&quot;: 11.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 1.0, &quot;iqr&quot;: 5.0, &quot;q1&quot;: 4.0, &quot;median&quot;: 7.0, &quot;q3&quot;: 9.0, &quot;ninety_fifth_percentile&quot;: 12.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 3.449086044042714, &quot;coefficient_of_variation&quot;: 0.530469773696363, &quot;sum&quot;: 56788.0, &quot;variance&quot;: 11.896194539210217, &quot;mean&quot;: 6.501946416304099}}}, &quot;holiday&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.0, &quot;end&quot;: 1.0000001, &quot;width&quot;: 0, &quot;counts&quot;: [8471, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 263], &quot;max&quot;: 1.0, &quot;min&quot;: 0.0, &quot;bins&quot;: [0.0, 0.03333333666666667, 0.06666667333333334, 0.10000001000000001, 0.13333334666666669, 0.16666668333333334, 0.20000002000000003, 0.2333333566666667, 0.26666669333333337, 0.30000003000000003, 0.3333333666666667, 0.3666667033333334, 0.40000004000000006, 0.4333333766666667, 0.4666667133333334, 0.50000005, 0.5333333866666667, 0.5666667233333335, 0.6000000600000001, 0.6333333966666668, 0.6666667333333334, 0.7000000700000001, 0.7333334066666668, 0.7666667433333334, 0.8000000800000001, 0.8333334166666668, 0.8666667533333334, 0.9000000900000001, 0.9333334266666669, 0.9666667633333335, 1.0000001], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.0228990153992106, &quot;min&quot;: 0.0, &quot;max&quot;: 1.0, &quot;range&quot;: 1.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 0.0, &quot;iqr&quot;: 0.0, &quot;q1&quot;: 0.0, &quot;median&quot;: 0.0, &quot;q3&quot;: 0.0, &quot;ninety_fifth_percentile&quot;: 0.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 0.17027486044023468, &quot;coefficient_of_variation&quot;: 5.698010080785478, &quot;sum&quot;: 261.0, &quot;variance&quot;: 0.0289935280979414, &quot;mean&quot;: 0.029883215021754065}}}, &quot;workingday&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.0, &quot;end&quot;: 1.0000001, &quot;width&quot;: 0, &quot;counts&quot;: [2781, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5953], &quot;max&quot;: 1.0, &quot;min&quot;: 0.0, &quot;bins&quot;: [0.0, 0.03333333666666667, 0.06666667333333334, 0.10000001000000001, 0.13333334666666669, 0.16666668333333334, 0.20000002000000003, 0.2333333566666667, 0.26666669333333337, 0.30000003000000003, 0.3333333666666667, 0.3666667033333334, 0.40000004000000006, 0.4333333766666667, 0.4666667133333334, 0.50000005, 0.5333333866666667, 0.5666667233333335, 0.6000000600000001, 0.6333333966666668, 0.6666667333333334, 0.7000000700000001, 0.7333334066666668, 0.7666667433333334, 0.8000000800000001, 0.8333334166666668, 0.8666667533333334, 0.9000000900000001, 0.9333334266666669, 0.9666667633333335, 1.0000001], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.0228990153992106, &quot;min&quot;: 0.0, &quot;max&quot;: 1.0, &quot;range&quot;: 1.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 0.0, &quot;iqr&quot;: 1.0, &quot;q1&quot;: 0.0, &quot;median&quot;: 1.0, &quot;q3&quot;: 1.0, &quot;ninety_fifth_percentile&quot;: 1.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 0.46584183650974, &quot;coefficient_of_variation&quot;: 0.683349445763532, &quot;sum&quot;: 5954.0, &quot;variance&quot;: 0.2170086166427673, &quot;mean&quot;: 0.6817036867414701}}}, &quot;temp&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.82, &quot;end&quot;: 41.0000041, &quot;width&quot;: 0, &quot;counts&quot;: [12, 0, 24, 59, 124, 132, 433, 472, 356, 614, 362, 499, 568, 260, 434, 575, 312, 522, 748, 362, 516, 286, 440, 256, 104, 128, 88, 24, 24, 0], &quot;max&quot;: 41.0, &quot;min&quot;: 0.82, &quot;bins&quot;: [0.82, 2.15933347, 3.4986669399999997, 4.83800041, 6.17733388, 7.51666735, 8.85600082, 10.19533429, 11.53466776, 12.87400123, 14.213334699999999, 15.552668169999999, 16.89200164, 18.23133511, 19.57066858, 20.91000205, 22.24933552, 23.58866899, 24.92800246, 26.267335929999998, 27.606669399999998, 28.946002869999997, 30.285336339999997, 31.624669809999997, 32.96400328, 34.30333675, 35.64267022, 36.98200369, 38.32133716, 39.66067063, 41.0000041], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.5724754532246586, &quot;min&quot;: 0.82, &quot;max&quot;: 41.0, &quot;range&quot;: 40.18, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 9.02, &quot;iqr&quot;: 13.12, &quot;q1&quot;: 13.94, &quot;median&quot;: 21.32, &quot;q3&quot;: 27.06, &quot;ninety_fifth_percentile&quot;: 32.8}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 7.6568303795137975, &quot;coefficient_of_variation&quot;: 0.3699341873464927, &quot;sum&quot;: 180774.74, &quot;variance&quot;: 58.627051460645404, &quot;mean&quot;: 20.697817723837876}}}, &quot;atemp&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.76, &quot;end&quot;: 46.210004621, &quot;width&quot;: 0, &quot;counts&quot;: [0, 20, 16, 56, 79, 104, 356, 401, 200, 680, 581, 121, 184, 883, 409, 576, 298, 622, 416, 888, 470, 470, 352, 200, 72, 184, 56, 24, 8, 8], &quot;max&quot;: 46.21, &quot;min&quot;: 0.76, &quot;bins&quot;: [0.76, 2.2750001540333336, 3.7900003080666673, 5.305000462100001, 6.820000616133334, 8.335000770166667, 9.850000924200002, 11.365001078233334, 12.880001232266668, 14.395001386300002, 15.910001540333335, 17.42500169436667, 18.940001848400005, 20.45500200243334, 21.97000215646667, 23.485002310500004, 25.00000246453334, 26.515002618566673, 28.030002772600007, 29.545002926633337, 31.06000308066667, 32.575003234700006, 34.09000338873334, 35.60500354276667, 37.120003696800005, 38.635003850833336, 40.15000400486667, 41.665004158900004, 43.180004312933335, 44.69500446696667, 46.210004621], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.6984200720140818, &quot;min&quot;: 0.76, &quot;max&quot;: 46.21, &quot;range&quot;: 45.45, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 11.36, &quot;iqr&quot;: 14.399999999999999, &quot;q1&quot;: 16.66, &quot;median&quot;: 24.24, &quot;q3&quot;: 31.06, &quot;ninety_fifth_percentile&quot;: 37.12}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 8.32941759446829, &quot;coefficient_of_variation&quot;: 0.34527849769309, &quot;sum&quot;: 210696.97, &quot;variance&quot;: 69.37919746303794, &quot;mean&quot;: 24.123765743073047}}}, &quot;humidity&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 16.0, &quot;end&quot;: 100.00001, &quot;width&quot;: 0, &quot;counts&quot;: [16, 34, 82, 116, 164, 125, 280, 370, 410, 414, 269, 423, 445, 429, 409, 267, 395, 502, 346, 439, 328, 398, 307, 644, 93, 537, 148, 305, 0, 39], &quot;max&quot;: 100.0, &quot;min&quot;: 16.0, &quot;bins&quot;: [16.0, 18.800000333333333, 21.600000666666666, 24.400001000000003, 27.200001333333333, 30.00000166666667, 32.800002000000006, 35.600002333333336, 38.400002666666666, 41.200003, 44.00000333333334, 46.80000366666667, 49.600004000000006, 52.400004333333335, 55.20000466666667, 58.000005, 60.80000533333334, 63.600005666666675, 66.400006, 69.20000633333333, 72.00000666666668, 74.80000700000001, 77.60000733333334, 80.40000766666667, 83.20000800000001, 86.00000833333334, 88.80000866666667, 91.60000900000001, 94.40000933333334, 97.20000966666667, 100.00001], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.92741030562466, &quot;min&quot;: 16.0, &quot;max&quot;: 100.0, &quot;range&quot;: 84.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 31.0, &quot;iqr&quot;: 31.0, &quot;q1&quot;: 46.0, &quot;median&quot;: 61.0, &quot;q3&quot;: 77.0, &quot;ninety_fifth_percentile&quot;: 89.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 18.818446762450627, &quot;coefficient_of_variation&quot;: 0.30789694206101687, &quot;sum&quot;: 533816.0, &quot;variance&quot;: 354.13393855118846, &quot;mean&quot;: 61.119303869933596}}}, &quot;windspeed&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.0, &quot;end&quot;: 54.0000054, &quot;width&quot;: 0, &quot;counts&quot;: [1072, 0, 0, 1551, 900, 0, 885, 860, 731, 666, 501, 405, 274, 223, 176, 149, 94, 71, 53, 47, 20, 17, 19, 2, 10, 0, 8, 0, 0, 0], &quot;max&quot;: 54.0, &quot;min&quot;: 0.0, &quot;bins&quot;: [0.0, 1.80000018, 3.60000036, 5.400000540000001, 7.20000072, 9.0000009, 10.800001080000001, 12.60000126, 14.40000144, 16.200001620000002, 18.0000018, 19.80000198, 21.600002160000003, 23.40000234, 25.20000252, 27.0000027, 28.80000288, 30.600003060000002, 32.400003240000004, 34.20000342, 36.0000036, 37.800003780000004, 39.60000396, 41.40000414, 43.200004320000005, 45.0000045, 46.80000468, 48.60000486, 50.40000504, 52.20000522, 54.0000054], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.2976872179332789, &quot;min&quot;: 0.0, &quot;max&quot;: 54.0, &quot;range&quot;: 54.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 0.0, &quot;iqr&quot;: 10.0, &quot;q1&quot;: 7.0, &quot;median&quot;: 11.0, &quot;q3&quot;: 17.0, &quot;ninety_fifth_percentile&quot;: 28.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 8.139920282418249, &quot;coefficient_of_variation&quot;: 0.6427104916706533, &quot;sum&quot;: 110616.0, &quot;variance&quot;: 66.25830220412398, &quot;mean&quot;: 12.664987405541561}}}, &quot;season&quot;: {&quot;histogram&quot;: null, &quot;frequentItems&quot;: [{&quot;value&quot;: &quot;summer&quot;, &quot;estimate&quot;: 2256}, {&quot;value&quot;: &quot;spring&quot;, &quot;estimate&quot;: 2206}, {&quot;value&quot;: &quot;winter&quot;, &quot;estimate&quot;: 2174}, {&quot;value&quot;: &quot;fall&quot;, &quot;estimate&quot;: 2098}], &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: true, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.04579803102590249, &quot;min&quot;: NaN, &quot;max&quot;: NaN, &quot;range&quot;: NaN, &quot;quantile_statistics&quot;: null, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: null, &quot;coefficient_of_variation&quot;: null, &quot;sum&quot;: null, &quot;variance&quot;: null, &quot;mean&quot;: null}}}, &quot;weekday&quot;: {&quot;histogram&quot;: null, &quot;frequentItems&quot;: [{&quot;value&quot;: &quot;sun&quot;, &quot;estimate&quot;: 1271}, {&quot;value&quot;: &quot;sat&quot;, &quot;estimate&quot;: 1248}, {&quot;value&quot;: &quot;fri&quot;, &quot;estimate&quot;: 1248}, {&quot;value&quot;: &quot;wed&quot;, &quot;estimate&quot;: 1246}, {&quot;value&quot;: &quot;thu&quot;, &quot;estimate&quot;: 1246}, {&quot;value&quot;: &quot;mon&quot;, &quot;estimate&quot;: 1244}, {&quot;value&quot;: &quot;tue&quot;, &quot;estimate&quot;: 1231}], &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: true, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.0801465548924677, &quot;min&quot;: NaN, &quot;max&quot;: NaN, &quot;range&quot;: NaN, &quot;quantile_statistics&quot;: null, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: null, &quot;coefficient_of_variation&quot;: null, &quot;sum&quot;: null, &quot;variance&quot;: null, &quot;mean&quot;: null}}}, &quot;weather&quot;: {&quot;histogram&quot;: null, &quot;frequentItems&quot;: [{&quot;value&quot;: &quot;clear&quot;, &quot;estimate&quot;: 5768}, {&quot;value&quot;: &quot;mist&quot;, &quot;estimate&quot;: 2326}, {&quot;value&quot;: &quot;light_rain_snow&quot;, &quot;estimate&quot;: 638}, {&quot;value&quot;: &quot;heavy_rain_snow&quot;, &quot;estimate&quot;: 2}], &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: true, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.04579803102590249, &quot;min&quot;: NaN, &quot;max&quot;: NaN, &quot;range&quot;: NaN, &quot;quantile_statistics&quot;: null, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: null, &quot;coefficient_of_variation&quot;: null, &quot;sum&quot;: null, &quot;variance&quot;: null, &quot;mean&quot;: null}}}, &quot;cnt&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 1.0, &quot;end&quot;: 977.0000977, &quot;width&quot;: 0, &quot;counts&quot;: [1716, 696, 505, 524, 498, 504, 537, 494, 474, 384, 324, 275, 218, 188, 206, 210, 143, 141, 118, 108, 109, 81, 67, 40, 52, 54, 34, 24, 6, 4], &quot;max&quot;: 977.0, &quot;min&quot;: 1.0, &quot;bins&quot;: [1.0, 33.53333659, 66.06667318, 98.60000976999999, 131.13334636, 163.66668295, 196.20001953999997, 228.73335612999998, 261.26669272, 293.80002930999996, 326.3333659, 358.86670248999997, 391.40003907999994, 423.93337567, 456.46671225999995, 489.00004885, 521.53338544, 554.0667220299999, 586.6000586199999, 619.13339521, 651.6667318, 684.20006839, 716.7334049799999, 749.2667415699999, 781.8000781599999, 814.33341475, 846.86675134, 879.4000879299999, 911.9334245199999, 944.4667611099999, 977.0000977], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 9.836153135225564, &quot;min&quot;: 1.0, &quot;max&quot;: 977.0, &quot;range&quot;: 976.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 6.0, &quot;iqr&quot;: 294.0, &quot;q1&quot;: 54.0, &quot;median&quot;: 191.0, &quot;q3&quot;: 348.0, &quot;ninety_fifth_percentile&quot;: 664.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 208.91094098639903, &quot;coefficient_of_variation&quot;: 0.8902466454404272, &quot;sum&quot;: 2049576.0, &quot;variance&quot;: 43643.7812638227, &quot;mean&quot;: 234.6663613464621}}}, &quot;prediction&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.8998365088440486, &quot;end&quot;: 647.4551311806119, &quot;width&quot;: 0, &quot;counts&quot;: [1735, 713, 556, 579, 549, 606, 497, 485, 496, 381, 322, 214, 217, 229, 194, 145, 118, 132, 104, 112, 91, 45, 32, 36, 58, 46, 28, 14, 0, 0], &quot;max&quot;: 647.4550664351053, &quot;min&quot;: 0.8998365088440486, &quot;bins&quot;: [0.8998365088440486, 22.451679664569646, 44.00352282029524, 65.55536597602084, 87.10720913174643, 108.65905228747202, 130.21089544319764, 151.76273859892322, 173.31458175464883, 194.86642491037443, 216.4182680661, 237.97011122182562, 259.5219543775512, 281.0737975332768, 302.62564068900235, 324.177483844728, 345.72932700045357, 367.28117015617914, 388.8330133119048, 410.38485646763036, 431.93669962335593, 453.48854277908157, 475.04038593480715, 496.5922290905327, 518.1440722462584, 539.6959154019839, 561.2477585577095, 582.7996017134351, 604.3514448691607, 625.9032880248864, 647.4551311806119], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 99.48635709185102, &quot;min&quot;: 0.8998365088440486, &quot;max&quot;: 647.4550664351053, &quot;range&quot;: 646.5552299262613, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 4.275177471590513, &quot;iqr&quot;: 179.3905664754275, &quot;q1&quot;: 34.74653019802408, &quot;median&quot;: 116.602548446828, &quot;q3&quot;: 214.1370966734516, &quot;ninety_fifth_percentile&quot;: 413.8188405648659}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 130.63193526566621, &quot;coefficient_of_variation&quot;: 0.8957307304649016, &quot;sum&quot;: 1273752.5729614736, &quot;variance&quot;: 17064.70251125321, &quot;mean&quot;: 145.83839855295096}}}}, &quot;properties&quot;: {&quot;observations&quot;: 113542, &quot;missing_cells&quot;: 0, &quot;missing_percentage&quot;: 0.0}} }
+    const targetProfile = getTargetProfile()
+
+    function fixNumberTo(number, decimals = 3) {
+      const fractionalDigits = String(number % 1).split(&#x27;&#x27;).slice(2, 2 + decimals).join(&#x27;&#x27;)
+      return `${Math.trunc(number)}.${fractionalDigits}`
+    }
+
+    function registerHandlebarHelperFunctions() {
+      //helper fun
+
+      class GenerateChartParams {
+        constructor(height, width, data, bottomMargin=20, topMargin=5) {
+          this.MARGIN = {
+            TOP: topMargin,
+            RIGHT: 5,
+            BOTTOM: bottomMargin,
+            LEFT: 55,
+          };
+          this.SVG_WIDTH = width;
+          this.SVG_HEIGHT = height;
+          this.CHART_WIDTH = this.SVG_WIDTH - this.MARGIN.LEFT - this.MARGIN.RIGHT;
+          this.CHART_HEIGHT = this.SVG_HEIGHT - this.MARGIN.TOP - this.MARGIN.BOTTOM;
+          this.svgEl = d3.create(&quot;svg&quot;)
+             .attr(&quot;preserveAspectRatio&quot;, &quot;xMinYMin meet&quot;)
+             .attr(&quot;viewBox&quot;, &quot;30 0 240 400&quot;)
+             .classed(&quot;svg-content-responsive&quot;, true)
+          this.maxYValue = d3.max(data, (d) =&gt; Math.abs(d.axisY));
+          this.xScale = d3
+            .scaleBand()
+            .domain(data.map((d) =&gt; d.axisX))
+            .range([this.MARGIN.LEFT, this.MARGIN.LEFT + this.CHART_WIDTH]);
+          this.yScale = d3
+            .scaleLinear()
+            .domain([0, this.maxYValue * 1.02])
+            .range([this.CHART_HEIGHT, 0]);
+        }
+      }
+
+      function generateChart(data, height = 70, width = 250, index = 0, referenceProfileExist = false) {
+        const sizes = new GenerateChartParams(height, width, data, 5)
+        const {
+          MARGIN,
+          SVG_WIDTH,
+          SVG_HEIGHT,
+          CHART_WIDTH,
+          CHART_HEIGHT,
+          svgEl,
+          maxYValue,
+          xScale,
+          yScale
+        } = sizes
+        const rectColors = [&quot;#44C0E7&quot;, &quot;#F5843C&quot;]
+
+        // Add the y Axis
+        if (!referenceProfileExist) {
+          svgEl
+            .append(&quot;g&quot;)
+            .attr(&quot;transform&quot;, &quot;translate(&quot; + MARGIN.LEFT + &quot;, &quot; + MARGIN.TOP + &quot;)&quot;)
+            .call(d3.axisLeft(yScale).tickValues([0, maxYValue/2, maxYValue]))
+            .selectAll(&quot;text&quot;)
+            .style(&quot;font-size&quot;, &quot;8&quot;)
+        }
+
+        const gChart = svgEl.append(&quot;g&quot;);
+        gChart
+          .attr(&quot;transform&quot;, &quot;translate(&quot; + 20 + &quot;, &quot; + 0 + &quot;)&quot;)
+          .selectAll(&quot;.bar&quot;)
+          .data(data)
+          .enter()
+          .append(&quot;rect&quot;)
+          .classed(&quot;bar&quot;, true)
+          .attr(&quot;width&quot;, xScale.bandwidth() - 1)
+          .attr(&quot;height&quot;, (d) =&gt; CHART_HEIGHT - yScale(d.axisY))
+          .attr(&quot;x&quot;, (d) =&gt; xScale(d.axisX))
+          .attr(&quot;y&quot;, (d) =&gt; yScale(d.axisY) + MARGIN.TOP)
+          .attr(&quot;fill&quot;, rectColors[index]);
+
+        return svgEl._groups[0][0].outerHTML;
+      }
+
+      function chartData(column) {
+        const data = [];
+        if (column.histogram) {
+          column.histogram.counts.slice(0, 30).forEach((count, index) =&gt; {
+            data.push({
+              axisY: count,
+              axisX: index,
+            });
+          });
+        } else if (column.frequentItems) {
+          Object.entries(column.frequentItems).forEach(([key, {value, estimate}], index) =&gt; {
+              data.push({
+                axisY: estimate,
+                axisX: value,
+              });
+            });
+        }
+
+        return data
+      }
+
+      function graph(column, key, referenceColumn) {
+        let data = [];
+        const columnKey = key.data.key
+        let chartValue = false
+        let chartColor = undefined
+        if(!!referenceColumn){
+          column = referenceColumn.columns[columnKey]
+          chartValue = true
+          chartColor = 1
+        } else if (referenceColumn === undefined) {
+          column = &quot;&quot;
+        }
+
+        if (column.histogram || column.frequentItems) {
+          data = chartData(column)
+        } else if (referenceColumn === null ) {
+            $(&quot;.svg-container&quot;).css(&quot;padding-bottom&quot;, &quot;0&quot;)
+            return &#x27;&lt;span class=&quot;wl-table-cell__bedge-wrap&quot;&gt;No data to show the chart&lt;/span&gt;&#x27;;
+        } else if (referenceColumn === undefined) {
+            $(document).ready(function() {
+              $(&quot;.reference-table-head&quot;).addClass(&quot;d-none&quot;)
+            });
+            return &#x27;&#x27;
+        } else if (referenceColumn.frequentItems === undefined){
+            return &#x27;&#x27;;
+        }
+        return `
+          &lt;div class=&quot;svg-container&quot;&gt;
+            ${generateChart(data, ...[,,], chartColor, chartValue)}
+          &lt;/div&gt;
+        `;
+      }
+
+      function formatLabelDate(timestamp) {
+        const date = new Date(timestamp);
+        const format = d3.timeFormat(&quot;%Y-%m-%d %I:%M:%S %p %Z&quot;);
+        return format(date);
+      }
+
+    abbreviate_number = function(value, fixed = 0) {
+      value = +value
+      if (value === null) { return null; } // terminate early
+      if (value === 0) { return &#x27;0&#x27;; } // terminate early
+      fixed = (!fixed || fixed &lt; 0) ? 0 : fixed; // number of decimal places to show
+      var b = (value).toPrecision(2).split(&quot;e&quot;), // get power
+          k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3), // floor at decimals, ceiling at trillions
+          c = k &lt; 1 ? value.toFixed(0 + fixed) : (value / Math.pow(10, k * 3) ).toFixed(1 + fixed), // divide by power
+          d = c &lt; 0 ? c : Math.abs(c), // enforce -0 is 0
+          newValue = d,
+          suffixe = [&#x27;&#x27;, &#x27;K&#x27;, &#x27;M&#x27;, &#x27;B&#x27;, &#x27;T&#x27;][k]; // append power
+      return {value, newValue, suffixe};
+    }
+
+     function formatBytes(bytes, decimals = 2) {
+       let newValue,
+       suffixe = &quot;&quot;
+       if (bytes === 0) return &#x27;0 Bytes&#x27;;
+
+       const k = 1024;
+       const dm = decimals &lt; 0 ? 0 : decimals;
+       const sizes = [&#x27;Bytes&#x27;, &#x27;KiB&#x27;, &#x27;MB&#x27;, &#x27;GB&#x27;, &#x27;TB&#x27;, &#x27;PB&#x27;, &#x27;EB&#x27;, &#x27;ZB&#x27;, &#x27;YB&#x27;];
+
+       const i = Math.floor(Math.log(bytes) / Math.log(k));
+       newValue = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+       suffixe = sizes[i]
+       return {bytes, newValue, suffixe};
+     }
+
+     const valueSuffixe = (newNumber) =&gt; `
+       &lt;div class=&quot;statistic-measurement&quot;&gt;
+        ${newNumber}
+       &lt;/div&gt;`
+     const valueNumber = (newNumber) =&gt; `
+       &lt;div class=&quot;statistic-number&quot;&gt;
+        ${newNumber}
+       &lt;/div&gt;`
+
+     const numberWithSuffixe = (number, newNumber, suffixe) =&gt;
+       `&lt;div class=&quot;tooltip-full-number&quot;&gt;
+          &lt;div class=&quot;statistic-number&quot;&gt;
+             ${newNumber}
+            &lt;div class=&quot;statistic-measurement&quot;&gt;${suffixe}&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;span class=&quot;tooltiptext&quot;&gt;${number}&lt;/span&gt;
+        &lt;/div&gt;`
+
+     Handlebars.registerHelper(&quot;observations&quot;, function (properties) {
+       const {value, newValue, suffixe} = abbreviate_number(targetProfile.properties.observations)
+       return numberWithSuffixe(value, valueNumber(newValue), valueNumber(suffixe));
+     });
+
+     Handlebars.registerHelper(&quot;missingCells&quot;, function (properties) {
+       const {value, newValue, suffixe} = abbreviate_number(targetProfile.properties.missing_cells)
+       if (typeof value !== &#x27;undefined&#x27; &amp;&amp; typeof newValue !== &#x27;undefined&#x27;  &amp;&amp; typeof suffixe !== &#x27;undefined&#x27; ) {
+        return numberWithSuffixe(value, valueSuffixe(`${newValue}`), suffixe);
+       }
+       return numberWithSuffixe(0, valueNumber(0), valueNumber(&#x27;&#x27;));
+     });
+
+     Handlebars.registerHelper(&quot;missingCellsPercentage&quot;, function (properties) {
+       const {value, newValue, suffixe} = abbreviate_number(targetProfile.properties.missing_percentage)
+       if (typeof value !== &#x27;undefined&#x27; &amp;&amp; typeof newValue !== &#x27;undefined&#x27;  &amp;&amp; typeof suffixe !== &#x27;undefined&#x27; ) {
+        return numberWithSuffixe(value, valueSuffixe(`(${newValue}%)`), suffixe);
+       }
+       return numberWithSuffixe(0, valueSuffixe(`(${0}%)`), &#x27;&#x27;);
+     });
+
+     Handlebars.registerHelper(&quot;getProfileTimeStamp&quot;, function (properties) {
+       return formatLabelDate(+properties.properties.dataTimestamp)
+     });
+
+     Handlebars.registerHelper(&quot;getProfileName&quot;, function (properties) {
+       return properties.properties.tags.name
+     });
+
+       const cheqValueTypeNumber = (profile, profileValue) =&gt; {
+         let validValue;
+         if (profile &amp;&amp; profileValue !== undefined &amp;&amp; typeof profileValue === &quot;number&quot;) {
+           return true
+         } else if (profileValue !== undefined &amp;&amp; typeof profileValue !== &quot;number&quot;) {
+           return false
+         }
+       }
+
+
+      Handlebars.registerHelper(&quot;inferredType&quot;, function (column) {
+        let infferedType = &quot;&quot;;
+
+        if (column.isDiscrete) {
+          infferedType = &quot;Discrete&quot;;
+        } else {
+          infferedType = &quot;Non-discrete&quot;;
+        }
+        return infferedType;
+      });
+
+      Handlebars.registerHelper(&quot;frequentItems&quot;, function (column) {
+        frequentItemsElemString = &quot;&quot;;
+        if (column.isDiscrete) {
+          const slicedFrequentItems = column.frequentItems.items.slice(0, 5);
+          for (let fi = 0; fi &lt; slicedFrequentItems.length; fi++) {
+            frequentItemsElemString +=
+              &#x27;&lt;span class=&quot;wl-table-cell__bedge&quot;&gt;&#x27; + slicedFrequentItems[fi].jsonValue + &quot;&lt;/span&gt;&quot;;
+          }
+        } else {
+          frequentItemsElemString += &quot;No data to show&quot;;
+        }
+        return frequentItemsElemString;
+      });
+
+      Handlebars.registerHelper(&quot;totalCount&quot;, function (column) {
+        if (column.featureStats) {
+          return column.featureStats.total_count;
+        }
+
+        return &quot;-&quot;;
+      });
+
+      Handlebars.registerHelper(&quot;missing&quot;, function (column) {
+        if (column.featureStats) {
+          return column.featureStats.missing;
+        }
+
+        return &quot;-&quot;;
+      });
+
+      Handlebars.registerHelper(&quot;minimumValue&quot;, function (column) {
+        if (column.featureStats) {
+          if (isNaN(column.featureStats.min)){return &quot;-&quot;}
+          return fixNumberTo(column.featureStats.min);
+        }
+
+        return &quot;-&quot;;
+      });
+
+      Handlebars.registerHelper(&quot;maximumValue&quot;, function (column) {
+        if (column.featureStats) {
+          if (isNaN(column.featureStats.max)){return &quot;-&quot;}
+          return fixNumberTo(column.featureStats.max);
+        }
+
+        return &quot;-&quot;;
+      });
+
+
+      Handlebars.registerHelper(&quot;mean&quot;, function (column) {
+        if (column.featureStats?.descriptive_statistics) {
+          if (isNaN(column.featureStats.descriptive_statistics.mean)){return &quot;-&quot;}
+          if (column.featureStats.descriptive_statistics.mean==null){return &quot;-&quot;}
+          return fixNumberTo(column.featureStats.descriptive_statistics.mean);
+        }
+        return &quot;-&quot;;
+      });
+
+      Handlebars.registerHelper(&quot;getGraphHtml&quot;,(column,key) =&gt; graph(column, key, null));
+
+      Handlebars.registerHelper(&quot;getDiscreteTypeCount&quot;, function () {
+        let count = 0;
+
+        Object.entries(this.columns).forEach((feature) =&gt; {
+          if (feature[1].isDiscrete === true) {
+            count++;
+          }
+        });
+        return count.toString();
+      });
+
+      Handlebars.registerHelper(&quot;getNonDiscreteTypeCount&quot;, function () {
+        let count = 0;
+
+        Object.entries(this.columns).forEach((feature) =&gt; {
+          if (feature[1].isDiscrete === false) {
+            count++;
+          }
+        });
+        return count;
+      });
+
+      Handlebars.registerHelper(&quot;getUnknownTypeCount&quot;, function () {
+        let count = 0;
+        return count;
+        Object.entries(this.columns).forEach((feature) =&gt; {
+          if (!feature[1].isDiscrete) {
+            count++;
+          }
+        });
+        return count;
+      });
+    }
+
+    function initHandlebarsTemplate() {
+      // Replace this context with JSON from .py file
+      const context = {&quot;columns&quot;: {&quot;hour&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.0, &quot;end&quot;: 23.0000023, &quot;width&quot;: 0, &quot;counts&quot;: [364, 364, 364, 345, 0, 363, 364, 364, 0, 364, 363, 365, 0, 363, 365, 363, 365, 0, 365, 365, 365, 0, 365, 365, 373, 0, 365, 357, 365, 373], &quot;max&quot;: 23.0, &quot;min&quot;: 0.0, &quot;bins&quot;: [0.0, 0.7666667433333333, 1.5333334866666666, 2.3000002299999998, 3.066666973333333, 3.8333337166666666, 4.6000004599999995, 5.366667203333333, 6.133333946666666, 6.90000069, 7.666667433333333, 8.433334176666666, 9.200000919999999, 9.966667663333332, 10.733334406666666, 11.50000115, 12.266667893333333, 13.033334636666666, 13.80000138, 14.566668123333333, 15.333334866666666, 16.10000161, 16.86666835333333, 17.633335096666666, 18.400001839999998, 19.166668583333333, 19.933335326666665, 20.70000207, 21.46666881333333, 22.233335556666667, 23.0000023], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.27478819980429264, &quot;min&quot;: 0.0, &quot;max&quot;: 23.0, &quot;range&quot;: 23.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 1.0, &quot;iqr&quot;: 12.0, &quot;q1&quot;: 6.0, &quot;median&quot;: 12.0, &quot;q3&quot;: 18.0, &quot;ninety_fifth_percentile&quot;: 22.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 6.9212080403272385, &quot;coefficient_of_variation&quot;: 0.6007914271367473, &quot;sum&quot;: 100617.0, &quot;variance&quot;: 47.90312073749042, &quot;mean&quot;: 11.52015113350126}}}, &quot;month&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 1.0, &quot;end&quot;: 12.0000012, &quot;width&quot;: 0, &quot;counts&quot;: [740, 0, 688, 0, 0, 744, 0, 0, 720, 0, 744, 0, 0, 720, 0, 0, 746, 0, 0, 744, 0, 720, 0, 0, 708, 0, 0, 718, 0, 742], &quot;max&quot;: 12.0, &quot;min&quot;: 1.0, &quot;bins&quot;: [1.0, 1.3666667066666667, 1.7333334133333334, 2.10000012, 2.4666668266666667, 2.8333335333333336, 3.20000024, 3.5666669466666665, 3.9333336533333334, 4.30000036, 4.666667066666667, 5.033333773333333, 5.40000048, 5.766667186666667, 6.133333893333333, 6.5000006, 6.866667306666667, 7.233334013333334, 7.600000720000001, 7.966667426666667, 8.333334133333334, 8.700000840000001, 9.066667546666666, 9.433334253333333, 9.80000096, 10.166667666666667, 10.533334373333334, 10.900001080000001, 11.266667786666666, 11.633334493333333, 12.0000012], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.1373940958074829, &quot;min&quot;: 1.0, &quot;max&quot;: 12.0, &quot;range&quot;: 11.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 1.0, &quot;iqr&quot;: 5.0, &quot;q1&quot;: 4.0, &quot;median&quot;: 7.0, &quot;q3&quot;: 9.0, &quot;ninety_fifth_percentile&quot;: 12.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 3.449086044042714, &quot;coefficient_of_variation&quot;: 0.530469773696363, &quot;sum&quot;: 56788.0, &quot;variance&quot;: 11.896194539210217, &quot;mean&quot;: 6.501946416304099}}}, &quot;holiday&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.0, &quot;end&quot;: 1.0000001, &quot;width&quot;: 0, &quot;counts&quot;: [8471, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 263], &quot;max&quot;: 1.0, &quot;min&quot;: 0.0, &quot;bins&quot;: [0.0, 0.03333333666666667, 0.06666667333333334, 0.10000001000000001, 0.13333334666666669, 0.16666668333333334, 0.20000002000000003, 0.2333333566666667, 0.26666669333333337, 0.30000003000000003, 0.3333333666666667, 0.3666667033333334, 0.40000004000000006, 0.4333333766666667, 0.4666667133333334, 0.50000005, 0.5333333866666667, 0.5666667233333335, 0.6000000600000001, 0.6333333966666668, 0.6666667333333334, 0.7000000700000001, 0.7333334066666668, 0.7666667433333334, 0.8000000800000001, 0.8333334166666668, 0.8666667533333334, 0.9000000900000001, 0.9333334266666669, 0.9666667633333335, 1.0000001], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.0228990153992106, &quot;min&quot;: 0.0, &quot;max&quot;: 1.0, &quot;range&quot;: 1.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 0.0, &quot;iqr&quot;: 0.0, &quot;q1&quot;: 0.0, &quot;median&quot;: 0.0, &quot;q3&quot;: 0.0, &quot;ninety_fifth_percentile&quot;: 0.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 0.17027486044023468, &quot;coefficient_of_variation&quot;: 5.698010080785478, &quot;sum&quot;: 261.0, &quot;variance&quot;: 0.0289935280979414, &quot;mean&quot;: 0.029883215021754065}}}, &quot;workingday&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.0, &quot;end&quot;: 1.0000001, &quot;width&quot;: 0, &quot;counts&quot;: [2781, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5953], &quot;max&quot;: 1.0, &quot;min&quot;: 0.0, &quot;bins&quot;: [0.0, 0.03333333666666667, 0.06666667333333334, 0.10000001000000001, 0.13333334666666669, 0.16666668333333334, 0.20000002000000003, 0.2333333566666667, 0.26666669333333337, 0.30000003000000003, 0.3333333666666667, 0.3666667033333334, 0.40000004000000006, 0.4333333766666667, 0.4666667133333334, 0.50000005, 0.5333333866666667, 0.5666667233333335, 0.6000000600000001, 0.6333333966666668, 0.6666667333333334, 0.7000000700000001, 0.7333334066666668, 0.7666667433333334, 0.8000000800000001, 0.8333334166666668, 0.8666667533333334, 0.9000000900000001, 0.9333334266666669, 0.9666667633333335, 1.0000001], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.0228990153992106, &quot;min&quot;: 0.0, &quot;max&quot;: 1.0, &quot;range&quot;: 1.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 0.0, &quot;iqr&quot;: 1.0, &quot;q1&quot;: 0.0, &quot;median&quot;: 1.0, &quot;q3&quot;: 1.0, &quot;ninety_fifth_percentile&quot;: 1.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 0.46584183650974, &quot;coefficient_of_variation&quot;: 0.683349445763532, &quot;sum&quot;: 5954.0, &quot;variance&quot;: 0.2170086166427673, &quot;mean&quot;: 0.6817036867414701}}}, &quot;temp&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.82, &quot;end&quot;: 41.0000041, &quot;width&quot;: 0, &quot;counts&quot;: [12, 0, 24, 59, 124, 132, 433, 472, 356, 614, 362, 499, 568, 260, 434, 575, 312, 522, 748, 362, 516, 286, 440, 256, 104, 128, 88, 24, 24, 0], &quot;max&quot;: 41.0, &quot;min&quot;: 0.82, &quot;bins&quot;: [0.82, 2.15933347, 3.4986669399999997, 4.83800041, 6.17733388, 7.51666735, 8.85600082, 10.19533429, 11.53466776, 12.87400123, 14.213334699999999, 15.552668169999999, 16.89200164, 18.23133511, 19.57066858, 20.91000205, 22.24933552, 23.58866899, 24.92800246, 26.267335929999998, 27.606669399999998, 28.946002869999997, 30.285336339999997, 31.624669809999997, 32.96400328, 34.30333675, 35.64267022, 36.98200369, 38.32133716, 39.66067063, 41.0000041], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.5724754532246586, &quot;min&quot;: 0.82, &quot;max&quot;: 41.0, &quot;range&quot;: 40.18, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 9.02, &quot;iqr&quot;: 13.12, &quot;q1&quot;: 13.94, &quot;median&quot;: 21.32, &quot;q3&quot;: 27.06, &quot;ninety_fifth_percentile&quot;: 32.8}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 7.6568303795137975, &quot;coefficient_of_variation&quot;: 0.3699341873464927, &quot;sum&quot;: 180774.74, &quot;variance&quot;: 58.627051460645404, &quot;mean&quot;: 20.697817723837876}}}, &quot;atemp&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.76, &quot;end&quot;: 46.210004621, &quot;width&quot;: 0, &quot;counts&quot;: [0, 20, 16, 56, 79, 104, 356, 401, 200, 680, 581, 121, 184, 883, 409, 576, 298, 622, 416, 888, 470, 470, 352, 200, 72, 184, 56, 24, 8, 8], &quot;max&quot;: 46.21, &quot;min&quot;: 0.76, &quot;bins&quot;: [0.76, 2.2750001540333336, 3.7900003080666673, 5.305000462100001, 6.820000616133334, 8.335000770166667, 9.850000924200002, 11.365001078233334, 12.880001232266668, 14.395001386300002, 15.910001540333335, 17.42500169436667, 18.940001848400005, 20.45500200243334, 21.97000215646667, 23.485002310500004, 25.00000246453334, 26.515002618566673, 28.030002772600007, 29.545002926633337, 31.06000308066667, 32.575003234700006, 34.09000338873334, 35.60500354276667, 37.120003696800005, 38.635003850833336, 40.15000400486667, 41.665004158900004, 43.180004312933335, 44.69500446696667, 46.210004621], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.6984200720140818, &quot;min&quot;: 0.76, &quot;max&quot;: 46.21, &quot;range&quot;: 45.45, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 11.36, &quot;iqr&quot;: 14.399999999999999, &quot;q1&quot;: 16.66, &quot;median&quot;: 24.24, &quot;q3&quot;: 31.06, &quot;ninety_fifth_percentile&quot;: 37.12}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 8.32941759446829, &quot;coefficient_of_variation&quot;: 0.34527849769309, &quot;sum&quot;: 210696.97, &quot;variance&quot;: 69.37919746303794, &quot;mean&quot;: 24.123765743073047}}}, &quot;humidity&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 16.0, &quot;end&quot;: 100.00001, &quot;width&quot;: 0, &quot;counts&quot;: [16, 34, 82, 116, 164, 125, 280, 370, 410, 414, 269, 423, 445, 429, 409, 267, 395, 502, 346, 439, 328, 398, 307, 644, 93, 537, 148, 305, 0, 39], &quot;max&quot;: 100.0, &quot;min&quot;: 16.0, &quot;bins&quot;: [16.0, 18.800000333333333, 21.600000666666666, 24.400001000000003, 27.200001333333333, 30.00000166666667, 32.800002000000006, 35.600002333333336, 38.400002666666666, 41.200003, 44.00000333333334, 46.80000366666667, 49.600004000000006, 52.400004333333335, 55.20000466666667, 58.000005, 60.80000533333334, 63.600005666666675, 66.400006, 69.20000633333333, 72.00000666666668, 74.80000700000001, 77.60000733333334, 80.40000766666667, 83.20000800000001, 86.00000833333334, 88.80000866666667, 91.60000900000001, 94.40000933333334, 97.20000966666667, 100.00001], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.92741030562466, &quot;min&quot;: 16.0, &quot;max&quot;: 100.0, &quot;range&quot;: 84.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 31.0, &quot;iqr&quot;: 31.0, &quot;q1&quot;: 46.0, &quot;median&quot;: 61.0, &quot;q3&quot;: 77.0, &quot;ninety_fifth_percentile&quot;: 89.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 18.818446762450627, &quot;coefficient_of_variation&quot;: 0.30789694206101687, &quot;sum&quot;: 533816.0, &quot;variance&quot;: 354.13393855118846, &quot;mean&quot;: 61.119303869933596}}}, &quot;windspeed&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.0, &quot;end&quot;: 54.0000054, &quot;width&quot;: 0, &quot;counts&quot;: [1072, 0, 0, 1551, 900, 0, 885, 860, 731, 666, 501, 405, 274, 223, 176, 149, 94, 71, 53, 47, 20, 17, 19, 2, 10, 0, 8, 0, 0, 0], &quot;max&quot;: 54.0, &quot;min&quot;: 0.0, &quot;bins&quot;: [0.0, 1.80000018, 3.60000036, 5.400000540000001, 7.20000072, 9.0000009, 10.800001080000001, 12.60000126, 14.40000144, 16.200001620000002, 18.0000018, 19.80000198, 21.600002160000003, 23.40000234, 25.20000252, 27.0000027, 28.80000288, 30.600003060000002, 32.400003240000004, 34.20000342, 36.0000036, 37.800003780000004, 39.60000396, 41.40000414, 43.200004320000005, 45.0000045, 46.80000468, 48.60000486, 50.40000504, 52.20000522, 54.0000054], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.2976872179332789, &quot;min&quot;: 0.0, &quot;max&quot;: 54.0, &quot;range&quot;: 54.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 0.0, &quot;iqr&quot;: 10.0, &quot;q1&quot;: 7.0, &quot;median&quot;: 11.0, &quot;q3&quot;: 17.0, &quot;ninety_fifth_percentile&quot;: 28.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 8.139920282418249, &quot;coefficient_of_variation&quot;: 0.6427104916706533, &quot;sum&quot;: 110616.0, &quot;variance&quot;: 66.25830220412398, &quot;mean&quot;: 12.664987405541561}}}, &quot;season&quot;: {&quot;histogram&quot;: null, &quot;frequentItems&quot;: [{&quot;value&quot;: &quot;summer&quot;, &quot;estimate&quot;: 2256}, {&quot;value&quot;: &quot;spring&quot;, &quot;estimate&quot;: 2206}, {&quot;value&quot;: &quot;winter&quot;, &quot;estimate&quot;: 2174}, {&quot;value&quot;: &quot;fall&quot;, &quot;estimate&quot;: 2098}], &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: true, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.04579803102590249, &quot;min&quot;: NaN, &quot;max&quot;: NaN, &quot;range&quot;: NaN, &quot;quantile_statistics&quot;: null, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: null, &quot;coefficient_of_variation&quot;: null, &quot;sum&quot;: null, &quot;variance&quot;: null, &quot;mean&quot;: null}}}, &quot;weekday&quot;: {&quot;histogram&quot;: null, &quot;frequentItems&quot;: [{&quot;value&quot;: &quot;sun&quot;, &quot;estimate&quot;: 1271}, {&quot;value&quot;: &quot;sat&quot;, &quot;estimate&quot;: 1248}, {&quot;value&quot;: &quot;fri&quot;, &quot;estimate&quot;: 1248}, {&quot;value&quot;: &quot;wed&quot;, &quot;estimate&quot;: 1246}, {&quot;value&quot;: &quot;thu&quot;, &quot;estimate&quot;: 1246}, {&quot;value&quot;: &quot;mon&quot;, &quot;estimate&quot;: 1244}, {&quot;value&quot;: &quot;tue&quot;, &quot;estimate&quot;: 1231}], &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: true, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.0801465548924677, &quot;min&quot;: NaN, &quot;max&quot;: NaN, &quot;range&quot;: NaN, &quot;quantile_statistics&quot;: null, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: null, &quot;coefficient_of_variation&quot;: null, &quot;sum&quot;: null, &quot;variance&quot;: null, &quot;mean&quot;: null}}}, &quot;weather&quot;: {&quot;histogram&quot;: null, &quot;frequentItems&quot;: [{&quot;value&quot;: &quot;clear&quot;, &quot;estimate&quot;: 5768}, {&quot;value&quot;: &quot;mist&quot;, &quot;estimate&quot;: 2326}, {&quot;value&quot;: &quot;light_rain_snow&quot;, &quot;estimate&quot;: 638}, {&quot;value&quot;: &quot;heavy_rain_snow&quot;, &quot;estimate&quot;: 2}], &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: true, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 0.04579803102590249, &quot;min&quot;: NaN, &quot;max&quot;: NaN, &quot;range&quot;: NaN, &quot;quantile_statistics&quot;: null, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: null, &quot;coefficient_of_variation&quot;: null, &quot;sum&quot;: null, &quot;variance&quot;: null, &quot;mean&quot;: null}}}, &quot;cnt&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 1.0, &quot;end&quot;: 977.0000977, &quot;width&quot;: 0, &quot;counts&quot;: [1716, 696, 505, 524, 498, 504, 537, 494, 474, 384, 324, 275, 218, 188, 206, 210, 143, 141, 118, 108, 109, 81, 67, 40, 52, 54, 34, 24, 6, 4], &quot;max&quot;: 977.0, &quot;min&quot;: 1.0, &quot;bins&quot;: [1.0, 33.53333659, 66.06667318, 98.60000976999999, 131.13334636, 163.66668295, 196.20001953999997, 228.73335612999998, 261.26669272, 293.80002930999996, 326.3333659, 358.86670248999997, 391.40003907999994, 423.93337567, 456.46671225999995, 489.00004885, 521.53338544, 554.0667220299999, 586.6000586199999, 619.13339521, 651.6667318, 684.20006839, 716.7334049799999, 749.2667415699999, 781.8000781599999, 814.33341475, 846.86675134, 879.4000879299999, 911.9334245199999, 944.4667611099999, 977.0000977], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 9.836153135225564, &quot;min&quot;: 1.0, &quot;max&quot;: 977.0, &quot;range&quot;: 976.0, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 6.0, &quot;iqr&quot;: 294.0, &quot;q1&quot;: 54.0, &quot;median&quot;: 191.0, &quot;q3&quot;: 348.0, &quot;ninety_fifth_percentile&quot;: 664.0}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 208.91094098639903, &quot;coefficient_of_variation&quot;: 0.8902466454404272, &quot;sum&quot;: 2049576.0, &quot;variance&quot;: 43643.7812638227, &quot;mean&quot;: 234.6663613464621}}}, &quot;prediction&quot;: {&quot;histogram&quot;: {&quot;start&quot;: 0.8998365088440486, &quot;end&quot;: 647.4551311806119, &quot;width&quot;: 0, &quot;counts&quot;: [1735, 713, 556, 579, 549, 606, 497, 485, 496, 381, 322, 214, 217, 229, 194, 145, 118, 132, 104, 112, 91, 45, 32, 36, 58, 46, 28, 14, 0, 0], &quot;max&quot;: 647.4550664351053, &quot;min&quot;: 0.8998365088440486, &quot;bins&quot;: [0.8998365088440486, 22.451679664569646, 44.00352282029524, 65.55536597602084, 87.10720913174643, 108.65905228747202, 130.21089544319764, 151.76273859892322, 173.31458175464883, 194.86642491037443, 216.4182680661, 237.97011122182562, 259.5219543775512, 281.0737975332768, 302.62564068900235, 324.177483844728, 345.72932700045357, 367.28117015617914, 388.8330133119048, 410.38485646763036, 431.93669962335593, 453.48854277908157, 475.04038593480715, 496.5922290905327, 518.1440722462584, 539.6959154019839, 561.2477585577095, 582.7996017134351, 604.3514448691607, 625.9032880248864, 647.4551311806119], &quot;n&quot;: 8734}, &quot;frequentItems&quot;: null, &quot;drift_from_ref&quot;: null, &quot;isDiscrete&quot;: false, &quot;featureStats&quot;: {&quot;total_count&quot;: 8734, &quot;missing&quot;: 0, &quot;distinct&quot;: 99.48635709185102, &quot;min&quot;: 0.8998365088440486, &quot;max&quot;: 647.4550664351053, &quot;range&quot;: 646.5552299262613, &quot;quantile_statistics&quot;: {&quot;fifth_percentile&quot;: 4.275177471590513, &quot;iqr&quot;: 179.3905664754275, &quot;q1&quot;: 34.74653019802408, &quot;median&quot;: 116.602548446828, &quot;q3&quot;: 214.1370966734516, &quot;ninety_fifth_percentile&quot;: 413.8188405648659}, &quot;descriptive_statistics&quot;: {&quot;stddev&quot;: 130.63193526566621, &quot;coefficient_of_variation&quot;: 0.8957307304649016, &quot;sum&quot;: 1273752.5729614736, &quot;variance&quot;: 17064.70251125321, &quot;mean&quot;: 145.83839855295096}}}}, &quot;properties&quot;: {&quot;observations&quot;: 113542, &quot;missing_cells&quot;: 0, &quot;missing_percentage&quot;: 0.0}};
+      // Config handlebars and pass data to HBS template
+      const source = document.getElementById(&quot;entry-template&quot;).innerHTML;
+      const template = Handlebars.compile(source);
+      const html = template(context);
+      const target = document.getElementById(&quot;generated-html&quot;);
+      target.innerHTML = html;
+    }
+
+    function initWebsiteScripts() {
+      const $featureSearch = document.getElementById(&quot;wl__feature-search&quot;);
+      const $tableBody = document.getElementById(&quot;table-body&quot;);
+      const $discrete = document.getElementById(&quot;inferredDiscrete&quot;);
+      const $nonDiscrete = document.getElementById(&quot;inferredNonDiscrete&quot;);
+      const $unknown = document.getElementById(&quot;inferredUnknown&quot;);
+
+      const activeTypes = {
+        discrete: true,
+        &quot;non-discrete&quot;: true,
+        unknown: true,
+      };
+
+      let searchString = &quot;&quot;;
+
+      function debounce(func, wait, immediate) {
+        let timeout;
+
+        return function () {
+          const context = this;
+          const args = arguments;
+          const later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+          };
+
+          const callNow = immediate &amp;&amp; !timeout;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) func.apply(context, args);
+        };
+      }
+
+      function filterNotification() {
+        const $notifCircleContainer = $(&quot;.notif-circle-container&quot;)
+        const $boxes = $(&#x27;.wl_filter-options&gt;.form-check&gt;input[name=checkbox]:checked&#x27;);
+        const item = Object.values($boxes).find(function(value) { return $(value)[0] === undefined});
+        if (item === undefined) {
+          $notifCircleContainer.removeClass(&quot;d-none&quot;)
+        } else {
+          $notifCircleContainer.addClass(&quot;d-none&quot;)
+        }
+      }
+
+      function handleSearch() {
+        const tableBodyChildren = $tableBody.children;
+
+        for (let i = 0; i &lt; tableBodyChildren.length; i++) {
+          const type = tableBodyChildren[i].dataset.inferredType.toLowerCase();
+          const name = tableBodyChildren[i].dataset.featureName.toLowerCase();
+
+          if (activeTypes[type] &amp;&amp; name.startsWith(searchString)) {
+            tableBodyChildren[i].style.display = &quot;&quot;;
+          } else {
+            tableBodyChildren[i].style.display = &quot;none&quot;;
+          }
+        }
+      }
+
+      $featureSearch.addEventListener(
+        &quot;keyup&quot;,
+        debounce((event) =&gt; {
+          searchString = event.target.value.toLowerCase();
+          handleSearch();
+        }, 100),
+      );
+
+      $discrete.addEventListener(&quot;change&quot;, (event) =&gt; {
+        if (event.currentTarget.checked) {
+          activeTypes[&quot;discrete&quot;] = true;
+        } else {
+          activeTypes[&quot;discrete&quot;] = false;
+        }
+        handleSearch();
+        filterNotification()
+      });
+
+      $nonDiscrete.addEventListener(&quot;change&quot;, (event) =&gt; {
+        if (event.currentTarget.checked) {
+          activeTypes[&quot;non-discrete&quot;] = true;
+        } else {
+          activeTypes[&quot;non-discrete&quot;] = false;
+        }
+        handleSearch();
+        filterNotification()
+      });
+
+      $unknown.addEventListener(&quot;change&quot;, (event) =&gt; {
+        if (event.currentTarget.checked) {
+          activeTypes[&quot;unknown&quot;] = true;
+        } else {
+          activeTypes[&quot;unknown&quot;] = false;
+        }
+        handleSearch();
+        filterNotification()
+      });
+
+
+      $(&quot;.svg-container&quot;).css(&quot;padding-bottom&quot;, &quot;27%&quot;)
+    }
+
+    function checkedBoxes() {
+      const $boxes = $(&#x27;input[name=checkbox]:checked&#x27;);
+      const $notifCircleContainer = $(&quot;.notif-circle-container&quot;)
+
+      if ($boxes.length) {
+        $notifCircleContainer.removeClass(&quot;d-none&quot;)
+      }
+    }
+
+    function openFilter() {
+      const $filterOptions = $(&quot;.dropdown-container&quot;);
+      const $notifCircleContainer = $(&quot;.notif-circle-container&quot;)
+      const filterClass = $filterOptions.attr(&quot;class&quot;);
+
+      if (filterClass.indexOf(&quot;d-none&quot;) &gt; 0) {
+        $notifCircleContainer.addClass(&quot;d-none&quot;)
+        $filterOptions.removeClass(&quot;d-none&quot;);
+        $(&quot;.filter-icon&quot;).addClass(&quot;d-none&quot;)
+        $(&quot;.close-filter-icon&quot;).removeClass(&quot;d-none&quot;)
+      } else {
+        $filterOptions.addClass(&quot;d-none&quot;);
+        $(&quot;.close-filter-icon&quot;).addClass(&quot;d-none&quot;)
+        $(&quot;.filter-icon&quot;).removeClass(&quot;d-none&quot;)
+        checkedBoxes()
+      }
+    }
+
+    // Invoke functions -- keep in mind invokation order
+    registerHandlebarHelperFunctions();
+    initHandlebarsTemplate();
+    initWebsiteScripts();
+  &lt;/script&gt;
+&lt;/html&gt;
+" width=100% height=2300px
+        frameBorder=0></iframe>

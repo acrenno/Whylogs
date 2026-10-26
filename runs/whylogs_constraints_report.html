@@ -1,0 +1,825 @@
+<div></div><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;&quot; /&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;&quot; /&gt;
+
+    &lt;title&gt;Profile Visualizer | whylogs&lt;/title&gt;
+
+    &lt;link rel=&quot;icon&quot; href=&quot;images/whylabs-favicon.png&quot; type=&quot;image/png&quot; sizes=&quot;16x16&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin /&gt;
+    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700&amp;display=swap&quot; rel=&quot;stylesheet&quot; /&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; /&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css&quot; /&gt;
+
+    &lt;script
+      src=&quot;https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js&quot;
+      integrity=&quot;sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg==&quot;
+      crossorigin=&quot;anonymous&quot;
+      referrerpolicy=&quot;no-referrer&quot;
+    &gt;&lt;/script&gt;
+
+    &lt;style type=&quot;text/css&quot;&gt;
+
+      /* Screen on smaller screens */
+      .no-responsive {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1031;
+        width: 100vw;
+        height: 100vh;
+        background-color: var(--tealBackground);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @media screen and (min-width: 1000px) {
+        .desktop-content {
+          display: block;
+        }
+        .no-responsive {
+          display: none;
+        }
+      }
+
+      .no-responsive__content {
+        max-width: 600px;
+        width: 100%;
+        padding: 0 24px;
+      }
+
+      .no-responsive__title {
+        font-size: 96px;
+        font-weight: 300;
+        color: var(--brandSecondary900);
+        line-height: 1.167;
+      }
+
+      .no-responsive__text {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--brandSecondary900);
+        line-height: 1.5;
+      }
+
+      .header-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #444444;
+      }
+
+      .tooltip-full-number {
+        position: relative;
+        display: inline-block;
+      }
+
+      .tooltip-full-number .tooltiptext {
+        visibility: hidden;
+        background: black;
+        color: white;
+        border: 1px solid black;
+        text-align: start;
+        padding: 3px;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 100%;
+        margin-left: 5px;
+        opacity: 0;
+        transition: opacity 0.5s;
+        font-size: 13px;
+        font-weight: normal;
+        line-height: 100%;
+      }
+
+      .tooltip-full-number:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+
+
+      .wl-compare-profile {
+        position: relative;
+        left: 0;
+        padding: 30px;
+        margin-bottom: 20px;
+        background: var(--white);;
+        border-bottom: 1px solid #CED4DA;
+      }
+
+      .alert-list {
+        padding: 30px;
+        padding-top: 0;
+      }
+
+    .drift-detection {
+       justify-content: space-between;
+       align-items: center;
+     }
+
+     .drift-detection-info-circle {
+       width: 15px;
+       height: 15px;
+       border-radius: 50px;
+       display: inline-block;
+       margin-right: 8px;
+     }
+
+     .drift-detection-info-drifts-item {
+         padding-right: 20px;
+     }
+
+     .drift-detection-info-title {
+       font-family: Arial;
+       font-weight: bold;
+       font-size: 22px;
+       line-height: 130%;
+       color: #313B3D;
+     }
+
+     .drift-detection-info-drifts-item-count {
+       font-family: Arial;
+       font-weight: bold;
+       font-size: 14px;
+       line-height: 16px;
+       color: #000000;
+       padding-right: 8px;
+     }
+
+     .drift-detection-info-drifts-item-name {
+       font-family: Arial;
+       font-style: normal;
+       font-weight: normal;
+       font-size: 12px;
+       line-height: 14px;
+       color: #000000;
+     }
+
+     .drift-detection-search-input {
+       display: flex;
+       align-items: center;
+       background: rgba(255, 255, 255, 0.7);
+       border: 1px solid #DBE5E7;
+       box-sizing: border-box;
+       border-radius: 4px;
+       width: 170px;
+       padding-left: 10px;
+     }
+
+     .drift-detection-search-input img{
+       margin-right: 5px;
+     }
+
+     .drift-detection-search-input input::placeholder {
+       font-family: Arial;
+       font-weight: normal;
+       font-size: 13px;
+       line-height: 16px;
+       color: #313B3D;
+     }
+
+     .dropdown-container {
+       position: absolute;
+       right: 30px;
+       top: 80px;
+       z-index: 999;
+       background: #FFFFFF;
+       border: 1px solid #DBE5E7;
+       box-sizing: border-box;
+       box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+       border-radius: 4px;
+       padding: 10px !important;
+       border: none !important;
+     }
+
+     .filter-options-title {
+       width: 240px;
+     }
+
+     .filter-options-title p {
+       margin: 0;
+     }
+
+     .form-check-input:checked {
+       background-color: #0E7384;
+       border-color: #0E7384;
+     }
+
+     .form-check-input[type=checkbox] {
+       border-radius: 2px;
+     }
+
+     .search-input{
+       padding-top: 0 !important;
+       padding-bottom: 0 !important;
+     }
+
+     .search-input input{
+       border: none;
+       background: none;
+       outline: none;
+       height: 40px;
+       width: 100%;
+       font-size: 14px;
+     }
+
+     .search-input img{
+       height: 19px;
+       pointer-events: none;
+     }
+
+     input::placeholder {
+       color: var(--secondaryLight1000);
+     }
+
+      .statistics {
+        width: 100%;
+      }
+
+     .close-filter-button {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       background: rgba(255, 255, 255, 0.7);
+       border: 1px solid #369BAC;
+       box-sizing: border-box;
+       border-radius: 4px;
+       width: 40px;
+       height: 40px;
+       cursor: pointer;
+       margin-left: 10px;
+     }
+
+      .statistic-number-title {
+        font-family: Arial;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        color: #6C757D;
+      }
+
+      .statistic-number {
+        font-family: Arial;
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 140%;
+        display: flex;
+        align-items: center;
+        color: #4F595B;
+      }
+
+      .full-summary-statistics-wrap {
+        padding: 20px;
+      }
+
+      .statistics {
+        width: 100%;
+      }
+
+      .statistics-list {
+        width: 100% ;
+      }
+
+      mark {
+        padding: 5px;
+        border-radius: 4px;
+        font-family: Arial;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 140%;
+      }
+
+      .blue-mark {
+        background-color:  #369BAC1A;
+        color: #369BAC;
+      }
+
+      .red-mark {
+        background-color: #FFEFEE;
+        color: #F5473C;
+      }
+
+      .alert-tag {
+        height: 27px;
+        padding: 5px;
+        border-radius: 4px;
+        font-family: Arial;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 140%;
+        color: #FFFFFF;
+      }
+
+      .turquoise-background-color {
+        background-color: #1DBB42;
+      }
+
+      .bordeaux-background-color {
+        background-color: #C6462A;
+      }
+
+      .border-solid-gray {
+        border: 1px solid #CED4DA;
+        border-radius: 4px;
+      }
+
+      .display-flex {
+        display: flex;
+      }
+
+      .justify-content-space-between {
+        justify-content: space-between;
+      }
+
+      .justify-content-center {
+        justify-content: center;
+      }
+
+      .align-items-center {
+        align-items: center;
+      }
+
+      .align-items-flex-start {
+        align-items: flex-start;
+      }
+
+      .padding-right-30 {
+        padding-right: 30px;
+      }
+
+      .notif-circle-container{
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        padding: 5.3px;
+        border-radius: 50%;
+        background-color: white;
+        cursor: pointer;
+      }
+
+      .notif-circle {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        padding: 3.3px;
+        border-radius: 50%;
+        background-color: #F2994A;
+      }
+
+      .alert-list-text {
+        width: 70%
+      }
+
+     @media screen and (min-width: 500px) {
+       .desktop-content {
+         display: block;
+       }
+       .no-responsive {
+         display: none;
+       }
+     }
+    &lt;/style&gt;
+  &lt;/head&gt;
+
+  &lt;body id=&quot;generated-html&quot;&gt;&lt;/body&gt;
+
+  &lt;script id=&quot;entry-template&quot; type=&quot;text/x-handlebars-template&quot;&gt;
+    
+      &lt;div class=&quot;desktop-content&quot;&gt;
+        &lt;div class=&quot;full-summary-statistics-wrap&quot;&gt;
+          &lt;div class=&quot;full-summary-statistics&quot;&gt;
+            &lt;div&gt;
+              &lt;div class=&quot;display-flex justify-content-center&quot;&gt;
+                &lt;div class=&quot;statistics-list border-solid-gray&quot;&gt;
+                  &lt;div&gt;
+                    &lt;div class=&quot;wl-compare-profile&quot; id=&quot;compare-profile&quot;&gt;
+                        &lt;div class=&quot;drift-detection-wrap&quot;&gt;
+                          &lt;div class=&quot;drift-detection display-flex align-items-flex-start&quot;&gt;
+                            &lt;div class=&quot;drift-detection-info flex-direction-colum&quot;&gt;
+                              &lt;div class=&quot;drift-detection-info-title-wrap display-flex&quot;&gt;
+                                &lt;p class=&quot;drift-detection-info-title&quot;&gt;
+                                  Constraints Report
+                                &lt;/p&gt;
+                              &lt;/div&gt;
+
+                              &lt;!-- &lt;/div&gt; --&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;drift-detection-search-input-wrap display-flex&quot;&gt;
+                              &lt;div class=&quot;drift-detection-search-input search-input&quot;&gt;
+                                &lt;input type=&quot;text&quot; id=&quot;wl__feature-search&quot; placeholder=&quot;Quick search...&quot;/&gt;
+                                &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGdSURBVHgBpZK7TkJBEIZnZoVocdTYyQNALxpNKPQBMEaNJsbCRMKhl8ISWwt6AaksCF5iTHgAGhJD4AHkAaAzGiwUsjvOQnO4SYh/cXbPzO43OxcEj9Zy92EiFSXNIfvPyE1kKFfdoxJMENpP6DrvLC0vJoEwCgwto7DWcxoIIHBYbA3NmKwnDltjAeuZhyul1DaTTlfPB6Nt5Z53DOgky4P875+nlctY2+unjZviLklkJhi5bPUa3y/7qJuQUM7PinMy7CdQc1Gh16vnBxPzrMROmlKQEgKNASAHLQCmSIGpS75O+O5pdQAgVXaIqTkNwDDXHmcnW3VmHZoGMLoTsOt88+NrAMCIZdu+iLTyTwKRa1Md6YKfOgXbzO7K8sWku5u5RxcRV5EpPezrzcHGbXEXWaUkgkweZ/UC9YrK3zqggFw5FBZfm8EUavHj7AjAKpIvBDrGn+pNnlcyhYgqbcC41idr1gvB4SdZkDbzQa21gwv0Vj07aPTtL07XdDOyDXohCDNoHIRmAVRie20f+RKybRDQDvxHkXy/7b/DrayncLbMwQAAAABJRU5ErkJggg==&quot;/&gt;
+                              &lt;/div&gt;
+                              &lt;div class=&quot;wl__dropdown_arrow-icon&quot;&gt;
+                                &lt;div onclick=&quot;openFilter()&quot; class=&quot;close-filter-button&quot;&gt;
+                                &lt;div class=&quot;display-flex close-filter-icon d-none&quot;&gt;
+                                  &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADFSURBVHgBfY+xDcIwEEXvnLQBZQkYAEhDwwKpEEK0CCZgAEjJCEmgjYSAygxAHTZgFRSOsyUjY5mcZFnn/+78PwBXf3+MoKWUPuYjVBPFnTwpr9t/oNJfcTfXsAhRAlDqDhhQIPYgpAqNMDqcUqSAYZT1epr9gAHt6uXshvYme4DYHQJNDKh0dD0m5WXB10Y3Fqjtuh7fROn3oREDWxfeMLyRsMnc0OgDzdduaA0Pi3Plgr7Q2kaAePeBqh6rueSNBVt6fgCwBV1JLF3rlAAAAABJRU5ErkJggg==&quot;/&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;display-flex filter-icon&quot;&gt;
+                                  &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACSSURBVHgBrZLBCYAwDEWTUjw7igcdwI1cxkNXUJzBEVzFAbSVKoKmaVrEB6GHJv/w+AACtRk7P9IONv1QOYUl96k0zv61m2tjARoLtSDI3EFsgIJ4uoXrMLazO72CRG2mzg/8BSdVlEjhpGZJjAWdAZJECpWalEhJSs1pHuUlMad5FFai1Lwg4Ckx1TxKIPFL8w55mEWd8VjPGAAAAABJRU5ErkJggg==&quot;/&gt;
+                                &lt;/div&gt;
+                                &lt;/div&gt;
+                              &lt;span class=&quot;notif-circle-container&quot;&gt;
+                                &lt;span class=&quot;notif-circle&quot;&gt;&lt;/span&gt;
+                              &lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;dropdown-container flex-direction-colum mb-2 d-none&quot; id=&quot;dropdown-container&quot;&gt;
+                          &lt;div class=&quot;filter-options&quot;&gt;
+                            &lt;div class=&quot;filter-options-title space-between dropdown&quot;&gt;
+                              &lt;p&gt;Select a view:&lt;/p&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;form-check mb-1 mt-2&quot;&gt;
+                              &lt;input
+                                class=&quot;form-check-input wl__feature-filter-input&quot;
+                                type=&quot;checkbox&quot;
+                                name=&quot;checkbox&quot;
+                                value=&quot;Discrete&quot;
+                                id=&quot;inferredDiscrete&quot;
+                                checked
+                              /&gt;
+                              &lt;label class=&quot;form-check-label&quot; for=&quot;inferredDiscrete&quot;&gt;
+                                Failed constraints (&lt;span class=&quot;wl__feature-count--discrete&quot;&gt;&lt;/span&gt;)
+                              &lt;/label&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;form-check mb-1&quot;&gt;
+                              &lt;input
+                                class=&quot;form-check-input wl__feature-filter-input&quot;
+                                type=&quot;checkbox&quot;
+                                name=&quot;checkbox&quot;
+                                value=&quot;Non-discrete&quot;
+                                id=&quot;inferredNonDiscrete&quot;
+                                checked
+                              /&gt;
+                              &lt;label class=&quot;form-check-label&quot; for=&quot;inferredNonDiscrete&quot;&gt;
+                                Passed constraints (&lt;span
+                                  class=&quot;wl__feature-count--non-discrete&quot;
+                                &gt;&lt;/span&gt;)
+                              &lt;/label&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;form-check mb-1&quot;&gt;
+                              &lt;input
+                                class=&quot;form-check-input wl__feature-filter-input&quot;
+                                type=&quot;checkbox&quot;
+                                name=&quot;checkbox&quot;
+                                value=&quot;Unknown&quot;
+                                id=&quot;inferredUnknown&quot;
+                                checked
+                              /&gt;
+                              &lt;label class=&quot;form-check-label&quot; for=&quot;inferredUnknown&quot;&gt;
+                                All constraints (&lt;span class=&quot;wl__feature-count--unknown&quot;&gt;&lt;/span&gt;)
+                              &lt;/label&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    &lt;div class=&quot;alert-list&quot; id=&quot;alert-list&quot;&gt;
+                      {{{alertLIst this}}}
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;no-responsive&quot;&gt;
+        &lt;div class=&quot;no-responsive__content&quot;&gt;
+          &lt;h1 class=&quot;no-responsive__title&quot;&gt;Hold on! :)&lt;/h1&gt;
+          &lt;p class=&quot;no-responsive__text&quot;&gt;
+            It looks like your current screen size or device is not yet supported by the WhyLabs Sandbox. The Sandbox is
+            best experienced on a desktop computer. Please try maximizing this window or switching to another device. We
+            are working on adding support for a larger variety of devices.
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    
+  &lt;/script&gt;
+
+  &lt;script src=&quot;https://code.jquery.com/jquery-3.6.0.min.js&quot; integrity=&quot;sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+
+  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js&quot; integrity=&quot;sha512-cd6CHE+XWDQ33ElJqsi0MdNte3S+bQY819f7p3NUHgwQQLXSKjE4cPZTeGNI+vaxZynk1wVU3hoHmow3m089wA==&quot; crossorigin=&quot;anonymous&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    function registerHandlebarHelperFunctions() {
+      //helper fun
+      function formatLabelDate(timestamp) {
+        const date = new Date(timestamp);
+        const format = d3.timeFormat(&quot;%Y-%m-%d %I:%M:%S %p %Z&quot;);
+        return format(date);
+      }
+
+      function fixNumberTo(number, decimals = 3) {
+        return parseFloat(number).toFixed(decimals);
+      }
+
+      const randomNumbers = (range) =&gt; Math.floor(Math.random() * range)
+
+      const findFetureWithNumberSummary = (column) =&gt; {
+        const fetureIndex = Object.values(column.columns)
+              .findIndex((feture) =&gt; feture.numberSummary)
+
+        return Object.keys(column.columns)[fetureIndex]
+      }
+
+      const alertListItemStatus = (status, passedItem, failedItem) =&gt; {
+        if (status) {
+          return passedItem
+        } else {
+          return failedItem
+        }
+      }
+
+      const alertListElement = (name, text, status, summary) =&gt; {
+        if (summary == null){
+          return (
+          `&lt;div
+             data-inferred-type=${alertListItemStatus(status, &quot;passed&quot;, &quot;failed&quot;)}
+             class=&quot;alert-list-item display-flex justify-content-space-between align-items-center mb-2&quot;
+           &gt;
+            &lt;div class=&quot;alert-list-text&quot;&gt;
+              ${
+                name &amp;&amp;
+                alertListItemStatus(
+                  status,
+                  `&lt;mark class=&quot;blue-mark&quot;&gt;${name}&lt;/mark&gt;`,
+                  `&lt;mark class=&quot;red-mark&quot;&gt;${name}&lt;/mark&gt;`
+                )
+              }
+              ${text}
+            &lt;/div&gt;
+              ${
+                alertListItemStatus(
+                  status,
+                  `
+                  &lt;div class=&quot;turquoise-background-color alert-tag&quot;&gt;Passed&lt;/div&gt;
+                  `
+                  ,
+                  `
+                  &lt;div class=&quot;bordeaux-background-color alert-tag&quot;&gt;Failed&lt;/div&gt;
+                  `
+                )
+              }
+              &lt;/div&gt;`
+        )
+
+        }
+        return (
+          `&lt;div
+             data-inferred-type=${alertListItemStatus(status, &quot;passed&quot;, &quot;failed&quot;)}
+             class=&quot;alert-list-item display-flex justify-content-space-between align-items-center mb-2&quot;
+           &gt;
+            &lt;div class=&quot;alert-list-text&quot;&gt;
+              ${
+                name &amp;&amp;
+                alertListItemStatus(
+                  status,
+                  `&lt;mark class=&quot;blue-mark&quot;&gt;${name}&lt;/mark&gt;`,
+                  `&lt;mark class=&quot;red-mark&quot;&gt;${name}&lt;/mark&gt;`
+                )
+              }
+              ${text}
+            &lt;/div&gt;
+              ${
+                alertListItemStatus(
+                  status,
+                  `
+                  &lt;div class=&quot;tooltip-full-number&quot;&gt;
+                    &lt;div class=&quot;turquoise-background-color alert-tag&quot;&gt;Passed
+                      &lt;span class=&quot;tooltiptext&quot;&gt;
+                          &lt;pre class=&quot;mb-1&quot;&gt; ${JSON.stringify(summary, null, 2)} &lt;/pre&gt;
+                        &lt;/span&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;`
+
+                  ,
+                  `
+                  &lt;div class=&quot;tooltip-full-number&quot;&gt;
+                    &lt;div class=&quot;bordeaux-background-color alert-tag&quot;&gt;Failed
+                      &lt;span class=&quot;tooltiptext&quot;&gt;
+                        &lt;pre class=&quot;mb-1&quot;&gt; ${JSON.stringify(summary, null, 2)} &lt;/pre&gt;
+                        &lt;/span&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;`
+                )
+              }
+              &lt;/div&gt;`
+        )
+      }
+
+      let failedConstraints = 0;
+
+      Handlebars.registerHelper(&quot;getProfileTimeStamp&quot;, function (column) {
+        return formatLabelDate(+column.properties.dataTimestamp)
+      });
+
+      Handlebars.registerHelper(&quot;getProfileName&quot;, function (column) {
+        return column.properties.tags.name
+      });
+
+
+      Handlebars.registerHelper(&quot;alertLIst&quot;, function (column) {
+        let alertListItem = column.map((value) =&gt; {
+          if (value[1][0]) {
+            let alertListValue = value[1].map((cstr)=&gt;{
+              return alertListElement(value[0],cstr[0],cstr[cstr.length - 1] === 0 || (failedConstraints++, false), value[3])
+            })
+            return alertListValue.join(&#x27; &#x27;)
+          } else {
+            return alertListElement(&#x27;&#x27;, value[0], value[2] === 0 ||  (failedConstraints++, false), value[3])
+          }
+        })
+         $(document).ready(() =&gt; {
+           $(&quot;.wl__feature-count--discrete&quot;).append(failedConstraints)
+           $(&quot;.wl__feature-count--non-discrete&quot;).append(column.length - failedConstraints)
+           $(&quot;.wl__feature-count--unknown&quot;).append(column.length)
+         })
+        return alertListItem.join(&#x27; &#x27;)
+      });
+
+    }
+
+    function openFilter() {
+      const $filterOptions = $(&quot;.dropdown-container&quot;);
+      const filterClass = $filterOptions.attr(&quot;class&quot;);
+
+      if (filterClass.indexOf(&quot;d-none&quot;) &gt; 0) {
+        $filterOptions.removeClass(&quot;d-none&quot;);
+        $(&quot;.filter-icon&quot;).addClass(&quot;d-none&quot;)
+        $(&quot;.close-filter-icon&quot;).removeClass(&quot;d-none&quot;)
+      } else {
+        $filterOptions.addClass(&quot;d-none&quot;);
+        $(&quot;.close-filter-icon&quot;).addClass(&quot;d-none&quot;)
+        $(&quot;.filter-icon&quot;).removeClass(&quot;d-none&quot;)
+      }
+    }
+
+    function initHandlebarsTemplate() {
+      // Replace this context with JSON from .py file
+      const context = [[&quot;hour is in range [0,23]&quot;, 1, 0, {&quot;metric&quot;: &quot;distribution&quot;, &quot;mean&quot;: 11.52015113350126, &quot;stddev&quot;: 6.9212080403272385, &quot;n&quot;: 8734, &quot;max&quot;: 23.0, &quot;min&quot;: 0.0, &quot;q_01&quot;: 0.0, &quot;q_05&quot;: 1.0, &quot;q_10&quot;: 2.0, &quot;q_25&quot;: 6.0, &quot;median&quot;: 12.0, &quot;q_75&quot;: 18.0, &quot;q_90&quot;: 21.0, &quot;q_95&quot;: 22.0, &quot;q_99&quot;: 23.0}], [&quot;temp is in range [-10,45]&quot;, 1, 0, {&quot;metric&quot;: &quot;distribution&quot;, &quot;mean&quot;: 20.697817723837876, &quot;stddev&quot;: 7.6568303795137975, &quot;n&quot;: 8734, &quot;max&quot;: 41.0, &quot;min&quot;: 0.82, &quot;q_01&quot;: 5.74, &quot;q_05&quot;: 9.02, &quot;q_10&quot;: 10.66, &quot;q_25&quot;: 13.94, &quot;median&quot;: 21.32, &quot;q_75&quot;: 27.06, &quot;q_90&quot;: 30.34, &quot;q_95&quot;: 32.8, &quot;q_99&quot;: 36.9}], [&quot;temp has no missing values&quot;, 1, 0, {&quot;metric&quot;: &quot;counts&quot;, &quot;n&quot;: 8734, &quot;null&quot;: 0, &quot;nan&quot;: 0, &quot;inf&quot;: 0, &quot;true&quot;: 0}], [&quot;humidity is in range [0,100]&quot;, 1, 0, {&quot;metric&quot;: &quot;distribution&quot;, &quot;mean&quot;: 61.119303869933596, &quot;stddev&quot;: 18.818446762450627, &quot;n&quot;: 8734, &quot;max&quot;: 100.0, &quot;min&quot;: 16.0, &quot;q_01&quot;: 24.0, &quot;q_05&quot;: 31.0, &quot;q_10&quot;: 36.0, &quot;q_25&quot;: 46.0, &quot;median&quot;: 61.0, &quot;q_75&quot;: 77.0, &quot;q_90&quot;: 87.0, &quot;q_95&quot;: 89.0, &quot;q_99&quot;: 94.0}], [&quot;cnt has no missing values&quot;, 1, 0, {&quot;metric&quot;: &quot;counts&quot;, &quot;n&quot;: 8734, &quot;null&quot;: 0, &quot;nan&quot;: 0, &quot;inf&quot;: 0, &quot;true&quot;: 0}], [&quot;volume: pelo menos 8696 horas (99% das esperadas)&quot;, 1, 0, {&quot;metric&quot;: &quot;counts&quot;, &quot;n&quot;: 8734, &quot;null&quot;: 0, &quot;nan&quot;: 0, &quot;inf&quot;: 0, &quot;true&quot;: 0}], [&quot;cnt mean between 115.0 and 172.4 (inclusive)&quot;, 0, 1, {&quot;metric&quot;: &quot;distribution&quot;, &quot;mean&quot;: 234.6663613464621, &quot;stddev&quot;: 208.91094098639903, &quot;n&quot;: 8734, &quot;max&quot;: 977.0, &quot;min&quot;: 1.0, &quot;q_01&quot;: 2.0, &quot;q_05&quot;: 6.0, &quot;q_10&quot;: 11.0, &quot;q_25&quot;: 54.0, &quot;median&quot;: 191.0, &quot;q_75&quot;: 348.0, &quot;q_90&quot;: 547.0, &quot;q_95&quot;: 665.0, &quot;q_99&quot;: 838.0}], [&quot;season values in set {&#x27;spring&#x27;, &#x27;fall&#x27;, &#x27;summer&#x27;, &#x27;winter&#x27;}&quot;, 1, 0, {&quot;metric&quot;: &quot;frequent_items&quot;, &quot;frequent_strings_top_10&quot;: [&quot;summer:2256&quot;, &quot;spring:2206&quot;, &quot;winter:2174&quot;, &quot;fall:2098&quot;]}], [&quot;weekday values in set {&#x27;fri&#x27;, &#x27;sun&#x27;, &#x27;sat&#x27;, &#x27;mon&#x27;, &#x27;thu&#x27;, &#x27;wed&#x27;, &#x27;tue&#x27;}&quot;, 1, 0, {&quot;metric&quot;: &quot;frequent_items&quot;, &quot;frequent_strings_top_10&quot;: [&quot;sun:1271&quot;, &quot;fri:1248&quot;, &quot;sat:1248&quot;, &quot;wed:1246&quot;, &quot;thu:1246&quot;, &quot;mon:1244&quot;, &quot;tue:1231&quot;]}], [&quot;weather values in set {&#x27;clear&#x27;, &#x27;mist&#x27;, &#x27;heavy_rain_snow&#x27;, &#x27;light_rain_snow&#x27;}&quot;, 1, 0, {&quot;metric&quot;: &quot;frequent_items&quot;, &quot;frequent_strings_top_10&quot;: [&quot;clear:5768&quot;, &quot;mist:2326&quot;, &quot;light_rain_snow:638&quot;, &quot;heavy_rain_snow:2&quot;]}], [&quot;prediction mean between 113.9 and 170.9 (inclusive)&quot;, 1, 0, {&quot;metric&quot;: &quot;distribution&quot;, &quot;mean&quot;: 145.83839855295096, &quot;stddev&quot;: 130.63193526566621, &quot;n&quot;: 8734, &quot;max&quot;: 647.4550664351053, &quot;min&quot;: 0.8998365088440486, &quot;q_01&quot;: 2.0801381459169757, &quot;q_05&quot;: 4.310617388390656, &quot;q_10&quot;: 6.86303696477461, &quot;q_25&quot;: 34.76717422413253, &quot;median&quot;: 117.05166401018906, &quot;q_75&quot;: 213.93410076596592, &quot;q_90&quot;: 337.7629958046719, &quot;q_95&quot;: 416.57405557118193, &quot;q_99&quot;: 544.7191032507088}], [&quot;erro mean between -14.4 and 14.4 (inclusive)&quot;, 0, 1, {&quot;metric&quot;: &quot;distribution&quot;, &quot;mean&quot;: -88.82796279351113, &quot;stddev&quot;: 95.21915293871913, &quot;n&quot;: 8734, &quot;max&quot;: 281.2510958395838, &quot;min&quot;: -599.4725581855004, &quot;q_01&quot;: -368.68244545559, &quot;q_05&quot;: -284.34907233395285, &quot;q_10&quot;: -223.78173674872622, &quot;q_25&quot;: -139.51367845921322, &quot;median&quot;: -66.49023161190695, &quot;q_75&quot;: -11.743747135475523, &quot;q_90&quot;: 0.1856057578101895, &quot;q_95&quot;: 5.038988021580661, &quot;q_99&quot;: 67.31345966951744}], [&quot;erro_abs mean between 0 and 34.1 (inclusive)&quot;, 0, 1, {&quot;metric&quot;: &quot;distribution&quot;, &quot;mean&quot;: 92.99807208641062, &quot;stddev&quot;: 91.15023765505121, &quot;n&quot;: 8734, &quot;max&quot;: 599.4725581855004, &quot;min&quot;: 0.0020896282462159466, &quot;q_01&quot;: 0.27054033536970845, &quot;q_05&quot;: 1.3711419172373338, &quot;q_10&quot;: 3.0329939258235257, &quot;q_25&quot;: 16.665069328427467, &quot;median&quot;: 68.65895670660598, &quot;q_75&quot;: 140.48845900303763, &quot;q_90&quot;: 226.0058993479986, &quot;q_95&quot;: 284.77012409722136, &quot;q_99&quot;: 371.42594442881807}]];
+      // Config handlebars and pass data to HBS template
+      const source = document.getElementById(&quot;entry-template&quot;).innerHTML;
+      const template = Handlebars.compile(source);
+      const html = template(context);
+      const target = document.getElementById(&quot;generated-html&quot;);
+      target.innerHTML = html;
+    }
+
+    function initWebsiteScripts() {
+      const $featureSearch = document.getElementById(&quot;wl__feature-search&quot;);
+      const $alertList = document.getElementById(&quot;alert-list&quot;);
+      const $discrete = document.getElementById(&quot;inferredDiscrete&quot;);
+      const $nonDiscrete = document.getElementById(&quot;inferredNonDiscrete&quot;);
+      const $unknown = document.getElementById(&quot;inferredUnknown&quot;);
+
+      const activeTypes = {
+        passed: true,
+        failed: true
+      };
+
+      let searchString = &quot;&quot;;
+
+      function debounce(func, wait, immediate) {
+        let timeout;
+
+        return function () {
+          const context = this;
+          const args = arguments;
+          const later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+          };
+
+          const callNow = immediate &amp;&amp; !timeout;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) func.apply(context, args);
+        };
+      }
+
+      function filterNotification() {
+        const $notifCircleContainer = $(&quot;.notif-circle-container&quot;)
+        const $boxes = $(&#x27;.wl_filter-options&gt;.form-check&gt;input[name=checkbox]:checked&#x27;);
+        const item = Object.values($boxes).find(function(value) { return $(value)[0] === undefined});
+        if (item === undefined) {
+          $notifCircleContainer.removeClass(&quot;d-none&quot;)
+        } else {
+          $notifCircleContainer.addClass(&quot;d-none&quot;)
+        }
+      }
+
+      function handleSearch() {
+        const tableBodyChildren = $alertList.children;
+
+        for (let i = 0; i &lt; tableBodyChildren.length; i++) {
+          const type = tableBodyChildren[i].dataset.inferredType.toLowerCase();
+          const name = $(tableBodyChildren[i].children[0]).html().toLowerCase();
+          if (activeTypes[type] &amp;&amp; name.includes(searchString)) {
+            tableBodyChildren[i].style.display = &quot;&quot;;
+          } else {
+            tableBodyChildren[i].style.display = &quot;none&quot;;
+          }
+        }
+      }
+
+      const checkedBoxes = () =&gt; {
+        if ($(&#x27;.form-check-input:checked&#x27;).length === $(&quot;.form-check-input&quot;).length - 1) {
+          $($(&quot;.form-check-input&quot;)[$(&quot;.form-check-input&quot;).length - 1]).prop( &quot;checked&quot;, true );
+        }
+      }
+
+      $featureSearch.addEventListener(
+        &quot;keyup&quot;,
+        debounce((event) =&gt; {
+          searchString = event.target.value.toLowerCase();
+          handleSearch();
+        }, 100),
+      );
+
+      $discrete.addEventListener(&quot;change&quot;, (event) =&gt; {
+        const currentCheckbox = $(event.currentTarget);
+
+        if (event.currentTarget.checked) {
+          activeTypes[&quot;failed&quot;] = true;
+          checkedBoxes();
+        } else {
+          activeTypes[&quot;failed&quot;] = false;
+          $($(&quot;.form-check-input&quot;)[$(&quot;.form-check-input&quot;).length - 1]).prop( &quot;checked&quot;, false );
+        }
+        handleSearch();
+      });
+
+      $nonDiscrete.addEventListener(&quot;change&quot;, (event) =&gt; {
+        const currentCheckbox = $(event.currentTarget);
+
+        if (event.currentTarget.checked) {
+          activeTypes[&quot;passed&quot;] = true;
+          checkedBoxes();
+        } else {
+          activeTypes[&quot;passed&quot;] = false;
+          $($(&quot;.form-check-input&quot;)[$(&quot;.form-check-input&quot;).length - 1]).prop( &quot;checked&quot;, false );
+        }
+        handleSearch();
+      });
+
+      $unknown.addEventListener(&quot;change&quot;, (event) =&gt; {
+        const currentCheckbox = $(event.currentTarget);
+
+        if (event.currentTarget.checked) {
+          $(&quot;.form-check-input&quot;).prop( &quot;checked&quot;, true );
+          activeTypes[&quot;passed&quot;] = true;
+          activeTypes[&quot;failed&quot;] = true;
+          checkedBoxes();
+        } else {
+          $(&quot;.form-check-input&quot;).prop( &quot;checked&quot;, false );
+          activeTypes[&quot;passed&quot;] = false;
+          activeTypes[&quot;failed&quot;] = false;
+        }
+        handleSearch();
+      });
+    }
+
+    function checkedBoxes() {
+      const $boxes = $(&#x27;input[name=checkbox]:checked&#x27;);
+      const $notifCircleContainer = $(&quot;.notif-circle-container&quot;)
+
+      if ($boxes.length) {
+        $notifCircleContainer.removeClass(&quot;d-none&quot;)
+      }
+    }
+
+    function openFilter() {
+      const $filterOptions = $(&quot;.dropdown-container&quot;);
+      const $notifCircleContainer = $(&quot;.notif-circle-container&quot;)
+      const filterClass = $filterOptions.attr(&quot;class&quot;);
+
+      if (filterClass.indexOf(&quot;d-none&quot;) &gt; 0) {
+        $notifCircleContainer.addClass(&quot;d-none&quot;)
+        $filterOptions.removeClass(&quot;d-none&quot;);
+        $(&quot;.filter-icon&quot;).addClass(&quot;d-none&quot;)
+        $(&quot;.close-filter-icon&quot;).removeClass(&quot;d-none&quot;)
+      } else {
+        $filterOptions.addClass(&quot;d-none&quot;);
+        $(&quot;.close-filter-icon&quot;).addClass(&quot;d-none&quot;)
+        $(&quot;.filter-icon&quot;).removeClass(&quot;d-none&quot;)
+        checkedBoxes()
+      }
+    }
+
+    // Invoke functions -- keep in mind invokation order
+    registerHandlebarHelperFunctions();
+    initHandlebarsTemplate();
+    initWebsiteScripts();
+  &lt;/script&gt;
+&lt;/html&gt;
+" width=100% height=750px
+        frameBorder=0></iframe>

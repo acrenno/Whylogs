@@ -1,0 +1,14 @@
+grupo,regra,status
+Integridade,"hour is in range [0,23]",PASS
+Integridade,"temp is in range [-10,45]",PASS
+Integridade,temp has no missing values,PASS
+Integridade,"humidity is in range [0,100]",PASS
+Integridade,cnt has no missing values,PASS
+Categorias,"season values in set {'spring', 'fall', 'summer', 'winter'}",PASS
+Categorias,"weekday values in set {'fri', 'sun', 'sat', 'mon', 'thu', 'wed', 'tue'}",PASS
+Categorias,"weather values in set {'clear', 'mist', 'heavy_rain_snow', 'light_rain_snow'}",PASS
+Volume,volume: pelo menos 8696 horas (99% das esperadas),PASS
+Previsões,prediction mean between 113.9 and 170.9 (inclusive),PASS
+Target,cnt mean between 115.0 and 172.4 (inclusive),FAIL
+Viés,erro mean between -14.4 and 14.4 (inclusive),FAIL
+Erro (MAE),erro_abs mean between 0 and 34.1 (inclusive),FAIL
